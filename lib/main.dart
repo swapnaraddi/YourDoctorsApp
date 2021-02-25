@@ -1,4 +1,5 @@
 import 'package:YOURDRS_FlutterAPP/ui/patient_details/patient_details.dart';
+import 'package:YOURDRS_FlutterAPP/ui/patient_dictation.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
 
-      home: PatientDetails(),
+      home: Patient_Dectation(),
     );
   }
 }
