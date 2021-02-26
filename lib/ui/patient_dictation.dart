@@ -27,27 +27,6 @@ class Patient_Dectation_State extends State<Patient_Dectation> {
   var image;
 
 
-  //function to open camera
-  Future openCamera() async {
-  image = await ImagePicker.pickImage(source: ImageSource.camera);
-    imageArray.add(image);
-      setState(() {
-        imageArray;
-        widgetVisible = true;
-      });
-    }
-
-
-  //function to open gallery
-  Future openGallery() async {
-   image = await ImagePicker.pickImage(source: ImageSource.gallery,);
-    imageArray.add(image);
-    setState(() {
-      imageArray;
-      widgetVisible = true;
-    });
-  }
-
   //function for switch button
   void toggleSwitch(bool value) {
     if (isSwitched == false) {
@@ -185,7 +164,7 @@ class Patient_Dectation_State extends State<Patient_Dectation> {
                         return Card(
                           child: Container(
                             height: 500,
-                            child: PlayIcon(),
+                            child: AudioRecorderPopup(),
                           ),
                         );
                       },
@@ -255,7 +234,7 @@ class Patient_Dectation_State extends State<Patient_Dectation> {
                             ),
                             onPressed: () {
                               // to open camera
-                              openCamera();
+                              // openCamera();
                               Navigator.pop(context);
                             },
                           ),
@@ -268,7 +247,7 @@ class Patient_Dectation_State extends State<Patient_Dectation> {
                             ),
                             onPressed: () {
                               //to open gallery
-                              openGallery();
+                              // openGallery();
                               Navigator.pop(context);
                             },
                           )

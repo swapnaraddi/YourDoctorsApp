@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
 
-      home: Patient_Dectation(),
+      home: PatientDetails(),
     );
   }
 }

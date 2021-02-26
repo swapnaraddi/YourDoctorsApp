@@ -1,6 +1,9 @@
 
+import 'package:YOURDRS_FlutterAPP/blocs/audio_bloc.dart';
 import 'package:YOURDRS_FlutterAPP/common/app_colors.dart';
 import 'package:YOURDRS_FlutterAPP/common/app_strings.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +19,8 @@ class PatientDetails extends StatefulWidget {
 }
 
 class _PatientDetailsState extends State<PatientDetails> {
+  // final TimerBloc _timerBloc = TimerBloc();
+
   File _image;
   bool isSwitched = false;
 
@@ -43,8 +48,6 @@ class _PatientDetailsState extends State<PatientDetails> {
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Container(
-          // height: MediaQuery.of(context).size.height,
-          // width: MediaQuery.of(context).size.height,
           child: Column(
             children: [
               Padding(
@@ -110,10 +113,13 @@ class _PatientDetailsState extends State<PatientDetails> {
                           showModalBottomSheet(
                             context: context,
                             builder: (BuildContext context) {
-                              return Card(
-                                child: Container(
-                                  height: 500,
-                                 child: PlayIcon(),
+                              return BlocProvider(
+                                create: (context) => AudioBloc(),
+                                child: Card(
+                                  child: Container(
+                                    height: 500,
+                                    child: AudioRecorderPopup(),
+                                  ),
                                 ),
                               );
                             },
@@ -143,9 +149,9 @@ class _PatientDetailsState extends State<PatientDetails> {
                                     'MRI',
                                     'Operative'
                                   ].map((String value) {
-                                    return new DropdownMenuItem<String>(
+                                    return  DropdownMenuItem<String>(
                                       value: value,
-                                      child: new Text(value),
+                                      child: Text(value),
                                     );
                                   }).toList(),
                                   onChanged: (_) {},

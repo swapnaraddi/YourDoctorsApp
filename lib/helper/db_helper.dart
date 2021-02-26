@@ -30,10 +30,10 @@ class DatabaseHelper {
         onCreate: (Database db, int version) async {
           await db.execute('CREATE TABLE Audio_Table('
               'id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,'
-              'audioFile BLOB,'
-              'provider_name TEXT,'
-              'provider_id TEXT,'
-              'dictation_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL'
+              'audioFile BLOB'
+              // 'provider_name TEXT,'
+              // 'provider_id TEXT,'
+              // 'dictation_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL'
               ')');
         });
   }
