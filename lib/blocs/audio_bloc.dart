@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:YOURDRS_FlutterAPP/data/model/audio.dart';
+import 'package:YOURDRS_FlutterAPP/data/model/dictation.dart';
 import 'package:YOURDRS_FlutterAPP/helper/db_helper.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
@@ -41,7 +41,7 @@ class AudioBloc extends Bloc<AudioBlocEvent, AudioBlocState> {
     else if (event is SaveRecord) {
       yield* _stop();
       var audioFile = await File(state.current.path).readAsBytes();
-      DatabaseHelper.db.insertAudio(Audio(audioFile: audioFile));
+      DatabaseHelper.db.insertAudio(Dictation(audioFile: audioFile));
       yield* _init();
     }
   }

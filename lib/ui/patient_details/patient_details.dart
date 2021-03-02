@@ -118,7 +118,7 @@ class _PatientDetailsState extends State<PatientDetails> {
                                 child: Card(
                                   child: Container(
                                     height: 500,
-                                    child: AudioRecorderPopup(),
+                                    child: AudioRecorderWidget(),
                                   ),
                                 ),
                               );

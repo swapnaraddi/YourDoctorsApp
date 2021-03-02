@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:YOURDRS_FlutterAPP/blocs/audio_bloc.dart';
 import 'package:YOURDRS_FlutterAPP/common/app_colors.dart';
 import 'package:YOURDRS_FlutterAPP/common/app_strings.dart';
 import 'package:YOURDRS_FlutterAPP/ui/patient_details/audio_recording.dart';
@@ -6,6 +7,7 @@ import 'package:YOURDRS_FlutterAPP/widget/buttons/material_buttons.dart';
 import 'package:YOURDRS_FlutterAPP/widget/buttons/raised_buttons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
@@ -25,6 +27,14 @@ class Patient_Dectation_State extends State<Patient_Dectation> {
   bool isSwitched = false;
   List imageArray = [];
   var image;
+
+  var _currencies = [
+    "Surgery",
+    "Non-Surgery",
+    "MRI",
+    "Operative",
+  ];
+  var _currentSelectedValue;
 
 
   //function for switch button
@@ -67,7 +77,8 @@ class Patient_Dectation_State extends State<Patient_Dectation> {
                             child: Container(
                               height: 90,
                               width: 90,
-                              child: Image.asset(AppStrings.defaultImage),
+                              //child: Image.asset(AppStrings.defaultImage),
+                              child: Image.network(AppStrings.defaultImage),
                             ),
                           ),
                           margin: EdgeInsets.only(left: 30),
@@ -158,50 +169,69 @@ class Patient_Dectation_State extends State<Patient_Dectation> {
                 //Button for mic
                 MaterialButtons(
                   onPressed: () {
-                    showModalBottomSheet(
+                    /*showModalBottomSheet(
                       context: context,
                       builder: (BuildContext context) {
                         return Card(
                           child: Container(
                             height: 500,
-                            child: AudioRecorderPopup(),
+                            //child: AudioRecorderPopup(),
+                            child: AudioRecorderWidget(patientFName: AppStrings.name,),
                           ),
                         );
                       },
-                    );
+                    );*/
                     Alert(
                       context: context,
                       title: AppStrings.dicttype,
                       content: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: CustomizedColors.alertColor,
-                        ),
-                        margin: EdgeInsets.only(top: 25),
-                        width: 230,
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton(
-                            hint: Container(
-                                margin: EdgeInsets.only(left: 60),
-                                child: Text(
-                                  AppStrings.dictationtype,
-                                  style: TextStyle(color: CustomizedColors.textColor),
-                                )
-                            ),
-                            items: <String>[
-                              'Surgery',
-                              'Non-Surgery',
-                              'MRI',
-                              'Operative'
-                            ].map((String value) {
-                              return new DropdownMenuItem<String>(
-                                value: value,
-                                child: new Text(value),
-                              );
-                            }).toList(),
-                            onChanged: (_) {},
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: CustomizedColors.alertColor
                           ),
-                        ),
+                          margin: EdgeInsets.only(top: 10),
+                          width: 230,
+                          height: 50,
+                          child: FormField<String>(
+                            builder: (FormFieldState<String> state) {
+                              return DropdownButtonHideUnderline(
+                                child: DropdownButton<String>(
+                                  isExpanded: true,
+                                  hint: Text("Dictation Type",style: TextStyle(color: CustomizedColors.textColor),),
+                                  value: _currentSelectedValue,
+                                  isDense: true,
+                                  onChanged: (String newValue) {
+                                    setState(() {
+                                      _currentSelectedValue = newValue;
+                                      state.didChange(newValue);
+                                      Navigator.pop(context);
+                                      showModalBottomSheet(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return BlocProvider(
+                                            create: (context) => AudioBloc(),
+                                            child: Card(
+                                              child: Container(
+                                                height: 500,
+                                                // child: AudioRecorderPopup(),
+                                                child: AudioRecorderWidget(patientFName: '',dictationType: _currentSelectedValue,),
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    });
+                                  },
+                                  items: _currencies.map((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
+                                ),
+                              );
+                            },
+                          ),
                       ),
                       buttons: [
                         DialogButton(

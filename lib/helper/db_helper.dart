@@ -1,5 +1,6 @@
 import 'dart:io';
-import 'package:YOURDRS_FlutterAPP/data/model/audio.dart';
+import 'package:YOURDRS_FlutterAPP/common/app_strings.dart';
+import 'package:YOURDRS_FlutterAPP/data/model/dictation.dart';
 import 'package:path/path.dart';
 
 import 'package:path_provider/path_provider.dart';
@@ -24,27 +25,42 @@ class DatabaseHelper {
   // Create the database and the User table
   initDB() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    final path = join(documentsDirectory.path, 'audio_manager.db');
+    final path = join(documentsDirectory.path, AppStrings.databaseName);
 
     return await openDatabase(path, version: 1, onOpen: (db) {},
         onCreate: (Database db, int version) async {
-          await db.execute('CREATE TABLE Audio_Table('
-              'id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,'
-              'audioFile BLOB'
-              // 'provider_name TEXT,'
-              // 'provider_id TEXT,'
-              // 'dictation_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL'
-              ')');
-        });
+      await db.execute(AppStrings.tableDataDictation
+          // 'CREATE TABLE Audio_Table('
+          // 'col_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,'
+          // 'col_dictation_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,'
+          // 'col_audioFile BLOB,'
+          // 'col_audio_fileName TEXT,'
+          // 'col_patient_fname TEXT,'
+          // 'col_patient_lname TEXT,'
+          // 'col_dateAndTime TEXT,'
+          // 'col_patient_DOB TEXT,'
+          // 'col_dictationTypeId'
+          // ')'
+          );
+
+      // await db.execute(AppStrings.tableDataExternalAttachment
+      // );
+    });
   }
 
   // Insert Audio
-  insertAudio(Audio newAudio) async {
+  insertAudio(Dictation newAudio) async {
     // await deleteAllAudios();
     final db = await database;
-    final res = await db.insert('Audio_Table', {
-      // 'id': newAudio.id,
-      'audioFile': newAudio.audioFile
+    final res = await db.insert(AppStrings.dbTableName, {
+      AppStrings.colId: newAudio.id,
+      AppStrings.col_AudioFile: newAudio.audioFile,
+      AppStrings.col_dictationId: newAudio.dictationId,
+      AppStrings.col_AudioFileName: newAudio.fileName,
+      AppStrings.col_PatientFname: newAudio.patientFirstName,
+      AppStrings.col_PatientLname: newAudio.patientLastName,
+      AppStrings.col_DateAndTime: newAudio.createdDate,
+      AppStrings.col_Patient_DOB: newAudio.patientDOB,
     });
     print("insertAudio $res ${newAudio.audioFile.length}");
     return res;
@@ -53,7 +69,7 @@ class DatabaseHelper {
   // Delete all Audios
   Future<int> deleteAllAudios() async {
     final db = await database;
-    final res = await db.rawDelete('DELETE FROM Audio');
+    final res = await db.rawDelete(AppStrings.deleteAllFile);
 
     return res;
   }
@@ -65,23 +81,32 @@ class DatabaseHelper {
   //   return updateRes;
   // }
 
-  Future<List<Audio>> getAllAudios() async {
+  Future<List<Dictation>> getAllAudios() async {
     final db = await database;
     // final res = await db.rawQuery("SELECT * FROM EMPLOYEE");
-    final res = await db.rawQuery(
-        "SELECT * FROM Audio");
 
-    // print('data is saving $res');
+    //Exception handling
+    try {
+      final res = await db.rawQuery(AppStrings.selectQuery);
 
-    List<Audio> list = res.isNotEmpty
-        ? res.map((c) {
-      print('res.map $c');
+      // print('data is saving $res');
 
-      final user = Audio.fromMap(c);
-      return user;
-    }).toList() : [];
-    print(list);
-    return list;
+      List<Dictation> list = res.isNotEmpty
+          ? res.map((c) {
+              print('res.map $c');
 
+              final user = Dictation.fromMap(c);
+              return user;
+            }).toList()
+          : [];
+      print(list);
+      return list;
+
+    } catch (e) {
+      print(e.toString());
+    }
   }
+
+  //Close the Databse
+  DatabaseHelper.close();
 }
