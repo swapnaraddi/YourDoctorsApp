@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:YOURDRS_FlutterAPP/common/app_strings.dart';
 import 'package:YOURDRS_FlutterAPP/data/model/dictation.dart';
+import 'package:YOURDRS_FlutterAPP/data/model/external_dictation.dart';
 import 'package:path/path.dart';
 
 import 'package:path_provider/path_provider.dart';
@@ -29,47 +30,98 @@ class DatabaseHelper {
 
     return await openDatabase(path, version: 1, onOpen: (db) {},
         onCreate: (Database db, int version) async {
-      await db.execute(AppStrings.tableDataDictation
-          // 'CREATE TABLE Audio_Table('
-          // 'col_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,'
-          // 'col_dictation_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,'
-          // 'col_audioFile BLOB,'
-          // 'col_audio_fileName TEXT,'
-          // 'col_patient_fname TEXT,'
-          // 'col_patient_lname TEXT,'
-          // 'col_dateAndTime TEXT,'
-          // 'col_patient_DOB TEXT,'
-          // 'col_dictationTypeId'
-          // ')'
-          );
+      await db.execute(AppStrings.tableDictation
+      );
 
-      // await db.execute(AppStrings.tableDataExternalAttachment
-      // );
+      await db.execute(AppStrings.tableExternalDictation
+      );
     });
   }
 
-  // Insert Audio
+  // Insert Audio and Manual dictation
   insertAudio(Dictation newAudio) async {
     // await deleteAllAudios();
-    final db = await database;
-    final res = await db.insert(AppStrings.dbTableName, {
-      AppStrings.colId: newAudio.id,
-      AppStrings.col_AudioFile: newAudio.audioFile,
-      AppStrings.col_dictationId: newAudio.dictationId,
-      AppStrings.col_AudioFileName: newAudio.fileName,
-      AppStrings.col_PatientFname: newAudio.patientFirstName,
-      AppStrings.col_PatientLname: newAudio.patientLastName,
-      AppStrings.col_DateAndTime: newAudio.createdDate,
-      AppStrings.col_Patient_DOB: newAudio.patientDOB,
-    });
-    print("insertAudio $res ${newAudio.audioFile.length}");
-    return res;
+    var db = await database;
+
+    //Exception handling
+    try {
+      var res = await db.insert(AppStrings.dbTableDictation, {
+        AppStrings.colId: newAudio.id,
+        // AppStrings.col_AudioFile: newAudio.audioFile,
+        AppStrings.col_dictationId: newAudio.dictationId,
+        AppStrings.col_AudioFileName: newAudio.fileName,
+        AppStrings.col_PatientFname: newAudio.patientFirstName,
+        AppStrings.col_PatientLname: newAudio.patientLastName,
+        AppStrings.col_CreatedDate: newAudio.createdDate,
+        AppStrings.col_Patient_DOB: newAudio.patientDOB,
+        AppStrings.col_DictationTypeId:newAudio.dictationTypeId,
+        AppStrings.col_EpisodeId:newAudio.episodeId,
+        AppStrings.col_EpisodeAttachmentRequestId:newAudio.episodeAppointmentRequestId,
+        AppStrings.col_attachmentSizeBytes:newAudio.attachmentSizeBytes,
+        AppStrings.col_attachmentType:newAudio.attachmentType,
+        AppStrings.col_MemberId:newAudio.memberId,
+        AppStrings.col_StatusId:newAudio.statusId,
+        AppStrings.col_UploadedToServer:newAudio.uploadedToServer,
+        AppStrings.col_DisplayFileName:newAudio.displayFileName,
+        AppStrings.col_PhysicalFileName:newAudio.physicalFileName,
+        AppStrings.col_DOS:newAudio.DOS,
+        AppStrings.col_PracticeId:newAudio.practiceId,
+        AppStrings.col_LocationId:newAudio.locationId,
+        AppStrings.col_ProviderId:newAudio.providerId,
+        AppStrings.col_AppointmentTypeId:newAudio.appointmentTypeId,
+        AppStrings.col_PhotoNameList:newAudio.photoNameList,
+        AppStrings.col_isEmergencyAddOn:newAudio.isEmergencyAddOn,
+        AppStrings.col_ExternalDocumentTypeId:newAudio.externalDocumentTypeId,
+        AppStrings.col_Description:newAudio.description,
+        AppStrings.col_AppointmentProvider:newAudio.appointmentProvider,
+        AppStrings.col_isSelected:newAudio.isSelected,
+
+      });
+      print("insertAudio $res");
+      return res;
+    }
+  catch (e){
+      print(e.toString());
+  }
+  }
+
+  // Insert External Dictation
+  insertExternalDictationData(ExternalDictation eDict) async {
+    var db = await database;
+
+    //Exception handling
+    try {
+      var externalDict = await db.insert(AppStrings.dbTableExternalDictation, {
+        AppStrings.col_External_Id:eDict,
+        AppStrings.col_ExternalPatientFname: eDict.patientFirstName,
+        AppStrings.col_ExternalPatientLname: eDict.patientLastName,
+        AppStrings.col_ExternalCreatedDate: eDict.createdDate,
+        AppStrings.col_ExternalPatient_DOB: eDict.patientDOB,
+        AppStrings.col_ExternalMemberId:eDict.memberId,
+        AppStrings.col_ExternalStatusId:eDict.statusId,
+        AppStrings.col_ExternalUploadedToServer:eDict.uploadedToServer,
+        AppStrings.col_ExternalDisplayFileName:eDict.displayFileName,
+        AppStrings.col_ExternalDOS:eDict.DOS,
+        AppStrings.col_ExternalPracticeId:eDict.practiceId,
+        AppStrings.col_ExternalLocationId:eDict.locationId,
+        AppStrings.col_ExternalAppointmentTypeId:eDict.appointmentTypeId,
+        AppStrings.col_ExternalisEmergencyAddOn:eDict.isEmergencyAddOn,
+        AppStrings.col_Ex_ExternalDocumentTypeId:eDict.externalDocumentTypeId,
+        AppStrings.col_ExternalDes:eDict.description,
+
+      });
+      // print("insertAudio $externalDict ${newAudio.audioFile.length}");
+      return externalDict;
+    }
+    catch (e){
+      print(e.toString());
+    }
   }
 
   // Delete all Audios
   Future<int> deleteAllAudios() async {
-    final db = await database;
-    final res = await db.rawDelete(AppStrings.deleteAllFile);
+    var db = await database;
+    var res = await db.rawDelete(AppStrings.deleteAllFile);
 
     return res;
   }
@@ -82,12 +134,12 @@ class DatabaseHelper {
   // }
 
   Future<List<Dictation>> getAllAudios() async {
-    final db = await database;
+    var db = await database;
     // final res = await db.rawQuery("SELECT * FROM EMPLOYEE");
 
     //Exception handling
     try {
-      final res = await db.rawQuery(AppStrings.selectQuery);
+      var res = await db.rawQuery(AppStrings.selectQuery);
 
       // print('data is saving $res');
 
@@ -95,7 +147,7 @@ class DatabaseHelper {
           ? res.map((c) {
               print('res.map $c');
 
-              final user = Dictation.fromMap(c);
+              var user = Dictation.fromMap(c);
               return user;
             }).toList()
           : [];
@@ -108,5 +160,5 @@ class DatabaseHelper {
   }
 
   //Close the Databse
-  DatabaseHelper.close();
+  //  db.close();
 }

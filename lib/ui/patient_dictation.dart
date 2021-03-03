@@ -8,7 +8,6 @@ import 'package:YOURDRS_FlutterAPP/widget/buttons/raised_buttons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -28,12 +27,13 @@ class Patient_Dectation_State extends State<Patient_Dectation> {
   List imageArray = [];
   var image;
 
-  var _currencies = [
-    "Surgery",
-    "Non-Surgery",
-    "MRI",
-    "Operative",
-  ];
+
+  // var _dictationTypeList = [
+  //   "Surgery",
+  //   "Non-Surgery",
+  //   "MRI",
+  //   "Operative",
+  // ];
   var _currentSelectedValue;
 
 
@@ -91,7 +91,7 @@ class Patient_Dectation_State extends State<Patient_Dectation> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                AppStrings.date,
+                                AppStrings.patient_dob,
                                 style: TextStyle(
                                     fontSize: 17,
                                     fontWeight: FontWeight.bold,
@@ -104,7 +104,7 @@ class Patient_Dectation_State extends State<Patient_Dectation> {
                                     color: CustomizedColors.addressTextColor),
                               ),
                               Text(
-                                AppStrings.name,
+                                AppStrings.patientFName + ' ' + AppStrings.patientLName,
                                 style: TextStyle(
                                     fontSize: 17,
                                     fontWeight: FontWeight.bold,
@@ -214,7 +214,14 @@ class Patient_Dectation_State extends State<Patient_Dectation> {
                                               child: Container(
                                                 height: 500,
                                                 // child: AudioRecorderPopup(),
-                                                child: AudioRecorderWidget(patientFName: '',dictationType: _currentSelectedValue,),
+
+                                                // ............Add Patient details and Audio file..................//
+                                                child: AudioRecorderWidget(
+                                                  patientFName: AppStrings.patientFName,
+                                                  patientLName: AppStrings.patientLName,
+                                                  patientDob: AppStrings.patient_dob,
+                                                  dictationType: _currentSelectedValue,
+                                                  ),
                                               ),
                                             ),
                                           );
@@ -222,7 +229,7 @@ class Patient_Dectation_State extends State<Patient_Dectation> {
                                       );
                                     });
                                   },
-                                  items: _currencies.map((String value) {
+                                  items: AppStrings.dictationTypeList.map((String value) {
                                     return DropdownMenuItem<String>(
                                       value: value,
                                       child: Text(value),

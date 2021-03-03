@@ -564,10 +564,10 @@ import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 
 class AudioRecorderWidget extends StatefulWidget {
-  final String patientFName,patientLName,patientDob, dictationType;
+  final String patientFName,patientLName,patientDob, dictationType, audioFileName;
 
   const AudioRecorderWidget(
-      {Key key, @required this.patientFName, this.patientLName, this.patientDob, @required this.dictationType})
+      {Key key, @required this.patientFName, this.patientLName, this.patientDob, @required this.dictationType, this.audioFileName})
       : super(key: key);
 
   @override
@@ -614,13 +614,13 @@ class AudioRecorderWidgetState extends State<AudioRecorderWidget> /*with SingleT
                   FlatButton(
                       onPressed: () async {
                         _stop();
-                        var audioFile = await File(_current.path).readAsBytes();
+                        // var audioFile = await File(_current.path).readAsBytes();
                         DatabaseHelper.db.insertAudio(Dictation(
-                          audioFile: audioFile,
+                          // audioFile: audioFile,
                           patientFirstName: widget.patientFName ?? 'NA',
-                          dictationId: widget.dictationType ?? 'NA',
                           patientLastName: widget.patientLName ?? 'NA',
-                          patientDOB: widget.patientDob ?? 'NA'
+                          dictationId: widget.dictationType ?? 'NA',
+                          patientDOB: widget.patientDob ?? 'NA',
                         ));
                         _init();
                       },
