@@ -33,7 +33,7 @@ class AppStrings {
   static const caseId="Y3BGCT9812-2";
   static const status="Checked Out";
   static const submitImages="Submit Images";
-  static const customPath = "/flutter_audio_recorder_";
+  static const customPath = "/audio_recorder_";
   static const permissionMsg = "You must accept permissions";
 
   //Database table
@@ -43,9 +43,9 @@ class AppStrings {
 
   //Patient dictation and Manual dictation columns
   static const colId = 'col_id';
-  // static const col_AudioFile = 'col_audioFile';
+  static const col_AudioFile = 'col_audioFile';
   static const col_dictationId = 'col_dictation_id';
-  static const col_AudioFileName = 'col_audio_fileName';
+  static const col_AudioFileName = 'col_fileName';
   static const col_PatientFname = 'col_patient_fname';
   static const col_PatientLname = 'col_patient_lname';
   static const col_CreatedDate = 'col_createdDate';
@@ -102,8 +102,8 @@ class AppStrings {
   static const tableDictation = 'CREATE TABLE Audio_Table('
   'col_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,'
   'col_dictation_id INTEGER,'
-  // 'col_audioFile BLOB,'
-  'col_audio_fileName TEXT,'
+  'col_audioFile BLOB,'
+  // 'col_fileName TEXT,'
   'col_patient_fname TEXT,'
   'col_patient_lname TEXT,'
   'col_patient_DOB TEXT,'

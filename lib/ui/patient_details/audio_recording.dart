@@ -552,6 +552,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:YOURDRS_FlutterAPP/common/app_colors.dart';
+import 'package:YOURDRS_FlutterAPP/common/app_log_helper.dart';
 import 'package:YOURDRS_FlutterAPP/common/app_strings.dart';
 import 'package:YOURDRS_FlutterAPP/data/model/dictation.dart';
 import 'package:YOURDRS_FlutterAPP/helper/db_helper.dart';
@@ -560,14 +561,14 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:file/local.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
-import 'package:intl/intl.dart';
+import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
 class AudioRecorderWidget extends StatefulWidget {
-  final String patientFName,patientLName,patientDob, dictationType, audioFileName;
+  final String patientFName,patientLName,patientDob, dictationType,caseNo;
 
   const AudioRecorderWidget(
-      {Key key, @required this.patientFName, this.patientLName, this.patientDob, @required this.dictationType, this.audioFileName})
+      {Key key, @required this.patientFName, this.patientLName, this.patientDob, @required this.dictationType, this.caseNo})
       : super(key: key);
 
   @override
@@ -614,15 +615,20 @@ class AudioRecorderWidgetState extends State<AudioRecorderWidget> /*with SingleT
                   FlatButton(
                       onPressed: () async {
                         _stop();
-                        // var audioFile = await File(_current.path).readAsBytes();
+                        var audioFile = await File(_current.path).readAsBytes();
                         DatabaseHelper.db.insertAudio(Dictation(
                           // audioFile: audioFile,
+                          audioFile: widget.dictationType + "_"+
+                          AppStrings.patientFName + "_" + AppStrings.caseId +"_"+
+                              '${DateTime.now()}' + ".mp4",
                           patientFirstName: widget.patientFName ?? 'NA',
                           patientLastName: widget.patientLName ?? 'NA',
                           dictationId: widget.dictationType ?? 'NA',
                           patientDOB: widget.patientDob ?? 'NA',
+                            attachmentType: widget.caseNo ?? 'NA'
                         ));
                         _init();
+                        print("Audio file name: $audioFile");
                       },
                       // _currentStatus != RecordingStatus.Unset ? _stop : null,
                       child: Text(
@@ -918,10 +924,11 @@ class AudioRecorderWidgetState extends State<AudioRecorderWidget> /*with SingleT
         }
         // can add extension like ".mp4" ".wav" ".m4a" ".aac"
         customPath = appDocDirectory.path +
-            customPath +
-            DateTime.now().millisecondsSinceEpoch.toString() +
+            '${DateTime.now()}'+
             ".mp4";
-
+        String path=appDocDirectory.path;
+            createFileName(path);
+            print(customPath);
         // .wav <---> AudioFormat.WAV
         // .mp4 .m4a .aac <---> AudioFormat.AAC
         // AudioFormat is optional, if given value, will overwrite path extension when there is conflicts.
@@ -939,8 +946,8 @@ class AudioRecorderWidgetState extends State<AudioRecorderWidget> /*with SingleT
           print(_currentStatus);
         });
       } else {
-        Scaffold.of(context).showSnackBar(
-            new SnackBar(content: new Text(AppStrings.permissionMsg)));
+        // Scaffold.of(context).showSnackBar(
+        //     new SnackBar(content: new Text(AppStrings.permissionMsg)));
       }
     } catch (e) {
       print(e);
@@ -1078,5 +1085,21 @@ class AudioRecorderWidgetState extends State<AudioRecorderWidget> /*with SingleT
   void onPlayAudio() async {
     AudioPlayer audioPlayer = AudioPlayer();
     await audioPlayer.play(_current.path, isLocal: true);
+  }
+
+   createFileName(String path) {
+    String fileName;
+
+    try {
+      fileName = "_" + basename(path).replaceAll(".", "");
+      if (fileName.length > 5) {
+        fileName = fileName.substring(0, 5);
+      }
+    } catch (e, s) {
+      fileName = "";
+      AppLogHelper.printLogs( e, s);
+    }
+     print("${DateTime.now().microsecondsSinceEpoch}" + fileName + ".mp4");
+    return "${DateTime.now().microsecondsSinceEpoch}" + fileName + ".mp4";
   }
 }

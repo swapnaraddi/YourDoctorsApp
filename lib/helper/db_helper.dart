@@ -47,9 +47,9 @@ class DatabaseHelper {
     try {
       var res = await db.insert(AppStrings.dbTableDictation, {
         AppStrings.colId: newAudio.id,
-        // AppStrings.col_AudioFile: newAudio.audioFile,
+        AppStrings.col_AudioFile :newAudio.audioFile,
         AppStrings.col_dictationId: newAudio.dictationId,
-        AppStrings.col_AudioFileName: newAudio.fileName,
+        // AppStrings.col_AudioFileName: newAudio.fileName,
         AppStrings.col_PatientFname: newAudio.patientFirstName,
         AppStrings.col_PatientLname: newAudio.patientLastName,
         AppStrings.col_CreatedDate: newAudio.createdDate,
@@ -74,7 +74,7 @@ class DatabaseHelper {
         AppStrings.col_ExternalDocumentTypeId:newAudio.externalDocumentTypeId,
         AppStrings.col_Description:newAudio.description,
         AppStrings.col_AppointmentProvider:newAudio.appointmentProvider,
-        AppStrings.col_isSelected:newAudio.isSelected,
+        AppStrings.col_isSelected:newAudio.isSelected
 
       });
       print("insertAudio $res");
@@ -107,7 +107,7 @@ class DatabaseHelper {
         AppStrings.col_ExternalAppointmentTypeId:eDict.appointmentTypeId,
         AppStrings.col_ExternalisEmergencyAddOn:eDict.isEmergencyAddOn,
         AppStrings.col_Ex_ExternalDocumentTypeId:eDict.externalDocumentTypeId,
-        AppStrings.col_ExternalDes:eDict.description,
+        AppStrings.col_ExternalDes:eDict.description
 
       });
       // print("insertAudio $externalDict ${newAudio.audioFile.length}");

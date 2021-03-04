@@ -41,7 +41,7 @@ class AudioBloc extends Bloc<AudioBlocEvent, AudioBlocState> {
     else if (event is SaveRecord) {
       yield* _stop();
       var audioFile = await File(state.current.path).readAsBytes();
-      DatabaseHelper.db.insertAudio(Dictation(audioFile: audioFile));
+      // DatabaseHelper.db.insertAudio(Dictation(audioFile: audioFile));
       yield* _init();
     }
   }

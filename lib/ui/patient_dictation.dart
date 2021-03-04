@@ -27,13 +27,6 @@ class Patient_Dectation_State extends State<Patient_Dectation> {
   List imageArray = [];
   var image;
 
-
-  // var _dictationTypeList = [
-  //   "Surgery",
-  //   "Non-Surgery",
-  //   "MRI",
-  //   "Operative",
-  // ];
   var _currentSelectedValue;
 
 

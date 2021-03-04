@@ -1,8 +1,7 @@
-import 'dart:typed_data';
 
 class Dictation {
   int id;
-  Uint8List audioFile;
+  String audioFile;
   String dictationId;
   int episodeId;
   int episodeAppointmentRequestId;
