@@ -565,10 +565,10 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
 class AudioRecorderWidget extends StatefulWidget {
-  final String patientFName,patientLName,patientDob, dictationType,caseNo;
+  final String patientFName,patientLName,patientDob, dictationTypeId;
 
   const AudioRecorderWidget(
-      {Key key, @required this.patientFName, this.patientLName, this.patientDob, @required this.dictationType, this.caseNo})
+      {Key key, @required this.patientFName, this.patientLName, this.patientDob, @required this.dictationTypeId})
       : super(key: key);
 
   @override
@@ -617,18 +617,17 @@ class AudioRecorderWidgetState extends State<AudioRecorderWidget> /*with SingleT
                         _stop();
                         var audioFile = await File(_current.path).readAsBytes();
                         DatabaseHelper.db.insertAudio(Dictation(
-                          // audioFile: audioFile,
-                          audioFile: widget.dictationType + "_"+
+                          audioFile: audioFile,
+                          fileName: widget.dictationTypeId + "_"+
                           AppStrings.patientFName + "_" + AppStrings.caseId +"_"+
                               '${DateTime.now()}' + ".mp4",
                           patientFirstName: widget.patientFName ?? 'NA',
                           patientLastName: widget.patientLName ?? 'NA',
-                          dictationId: widget.dictationType ?? 'NA',
-                          patientDOB: widget.patientDob ?? 'NA',
-                            attachmentType: widget.caseNo ?? 'NA'
+                          dictationTypeId: widget.dictationTypeId ?? 'NA',
+                          patientDOB: widget.patientDob ?? 'NA'
                         ));
                         _init();
-                        print("Audio file name: $audioFile");
+                        print("Audio file: $audioFile");
                       },
                       // _currentStatus != RecordingStatus.Unset ? _stop : null,
                       child: Text(

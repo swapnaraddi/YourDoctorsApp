@@ -47,9 +47,9 @@ class DatabaseHelper {
     try {
       var res = await db.insert(AppStrings.dbTableDictation, {
         AppStrings.colId: newAudio.id,
-        AppStrings.col_AudioFile :newAudio.audioFile,
+        // AppStrings.col_AudioFile :newAudio.audioFile,
         AppStrings.col_dictationId: newAudio.dictationId,
-        // AppStrings.col_AudioFileName: newAudio.fileName,
+        AppStrings.col_AudioFileName: newAudio.fileName,
         AppStrings.col_PatientFname: newAudio.patientFirstName,
         AppStrings.col_PatientLname: newAudio.patientLastName,
         AppStrings.col_CreatedDate: newAudio.createdDate,

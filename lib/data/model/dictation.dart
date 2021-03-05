@@ -1,7 +1,9 @@
 
+import 'dart:typed_data';
+
 class Dictation {
   int id;
-  String audioFile;
+  Uint8List audioFile;
   String dictationId;
   int episodeId;
   int episodeAppointmentRequestId;
@@ -18,6 +20,7 @@ class Dictation {
   String patientFirstName;
   String patientLastName;
   String patientDOB;
+  String caseNumber;
   String DOS;
   int practiceId;
   int locationId;
@@ -25,7 +28,7 @@ class Dictation {
   int appointmentTypeId;
   // String CPTCodeIds;
   String photoNameList;
-  int dictationTypeId;
+  String dictationTypeId;
   bool isEmergencyAddOn;
   int externalDocumentTypeId;
   String description;
@@ -33,7 +36,7 @@ class Dictation {
   bool isSelected;
 
   Dictation({this.id, this.audioFile,this.dictationId,this.episodeId,this.episodeAppointmentRequestId,this.attachmentName,this.attachmentSizeBytes,this.attachmentType,this.memberId,this.statusId,this.uploadedToServer,
-  this.createdDate,this.displayFileName,this.fileName,this.physicalFileName,this.patientFirstName,this.patientLastName,this.patientDOB,this.DOS,this.practiceId,this.locationId,this.providerId,
+  this.createdDate,this.displayFileName,this.fileName,this.physicalFileName,this.patientFirstName,this.patientLastName,this.patientDOB,this.caseNumber,this.DOS,this.practiceId,this.locationId,this.providerId,
     this.appointmentTypeId, this.photoNameList,this.dictationTypeId,this.isEmergencyAddOn,this.externalDocumentTypeId,this.description,this.appointmentProvider,this.isSelected});
 
   Map<String, dynamic> toMap() {
@@ -56,6 +59,7 @@ class Dictation {
       'patientFirstName':patientFirstName,
       'patientLastName':patientLastName,
       'patientDOB':patientDOB,
+      'caseNo':caseNumber,
       'DOS':DOS,
       'practiceId':practiceId,
       'locationId':locationId,
@@ -92,6 +96,7 @@ class Dictation {
     patientFirstName = map['patientFirstName'];
     patientLastName = map['patientLastName'];
     patientDOB = map['patientDOB'];
+    caseNumber = map['caseNo'];
     DOS = map['DOS'];
     practiceId = map['practiceId'];
     locationId = map['locationId'];

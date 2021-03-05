@@ -213,7 +213,7 @@ class Patient_Dectation_State extends State<Patient_Dectation> {
                                                   patientFName: AppStrings.patientFName,
                                                   patientLName: AppStrings.patientLName,
                                                   patientDob: AppStrings.patient_dob,
-                                                  dictationType: _currentSelectedValue,
+                                                  dictationTypeId: _currentSelectedValue,
                                                   ),
                                               ),
                                             ),

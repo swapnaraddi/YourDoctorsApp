@@ -42,35 +42,35 @@ class AppStrings {
   static const dbTableExternalDictation = 'External_Dictation';
 
   //Patient dictation and Manual dictation columns
-  static const colId = 'col_id';
-  static const col_AudioFile = 'col_audioFile';
-  static const col_dictationId = 'col_dictation_id';
-  static const col_AudioFileName = 'col_fileName';
-  static const col_PatientFname = 'col_patient_fname';
-  static const col_PatientLname = 'col_patient_lname';
-  static const col_CreatedDate = 'col_createdDate';
-  static const col_Patient_DOB = 'col_patient_DOB';
-  static const col_DictationTypeId = 'col_dictationTypeId';
-  static const col_EpisodeId = 'col_episodeId';
-  static const col_EpisodeAttachmentRequestId= 'col_episodeAttachmentRequestId';
-  static const col_attachmentSizeBytes = 'col_attachmentSizeBytes';
-  static const col_attachmentType = 'col_attachmentType';
-  static const col_MemberId = 'col_memberId';
-  static const col_StatusId = 'col_statusId';
-  static const col_UploadedToServer = 'col_uploadedToServer';
-  static const col_DisplayFileName = 'col_displayFileName';
-  static const col_PhysicalFileName = 'col_physicalFileName';
-  static const col_DOS = 'col_DOS';
-  static const col_PracticeId = 'col_practiceId';
-  static const col_LocationId = 'col_locationId';
-  static const col_ProviderId = 'col_providerId';
-  static const col_AppointmentTypeId = 'col_appointmentTypeId';
-  static const col_PhotoNameList = 'col_photoNameList';
-  static const col_isEmergencyAddOn = 'col_isEmergencyAddOn';
-  static const col_ExternalDocumentTypeId = 'col_externalDocumentTypeId';
-  static const col_Description = 'col_description';
-  static const col_AppointmentProvider = 'col_appointmentProvider';
-  static const col_isSelected = 'col_isSelected';
+  static const colId = 'id';
+  // static const col_AudioFile = 'col_audioFile';
+  static const col_dictationId = 'dictation_id';
+  static const col_AudioFileName = 'fileName';
+  static const col_PatientFname = 'patient_fname';
+  static const col_PatientLname = 'patient_lname';
+  static const col_CreatedDate = 'createdDate';
+  static const col_Patient_DOB = 'patient_DOB';
+  static const col_DictationTypeId = 'dictationTypeId';
+  static const col_EpisodeId = 'episodeId';
+  static const col_EpisodeAttachmentRequestId= 'episodeAttachmentRequestId';
+  static const col_attachmentSizeBytes = 'attachmentSizeBytes';
+  static const col_attachmentType = 'attachmentType';
+  static const col_MemberId = 'memberId';
+  static const col_StatusId = 'statusId';
+  static const col_UploadedToServer = 'uploadedToServer';
+  static const col_DisplayFileName = 'displayFileName';
+  static const col_PhysicalFileName = 'physicalFileName';
+  static const col_DOS = 'DOS';
+  static const col_PracticeId = 'practiceId';
+  static const col_LocationId = 'locationId';
+  static const col_ProviderId = 'providerId';
+  static const col_AppointmentTypeId = 'appointmentTypeId';
+  static const col_PhotoNameList = 'photoNameList';
+  static const col_isEmergencyAddOn = 'isEmergencyAddOn';
+  static const col_ExternalDocumentTypeId = 'externalDocumentTypeId';
+  static const col_Description = 'description';
+  static const col_AppointmentProvider = 'appointmentProvider';
+  static const col_isSelected = 'isSelected';
 
   //External dictation columns
   static const col_External_Id = 'col_id';
@@ -100,42 +100,42 @@ class AppStrings {
 
   //Table for Patient Dictation and Manual Dictation
   static const tableDictation = 'CREATE TABLE Audio_Table('
-  'col_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,'
-  'col_dictation_id INTEGER,'
-  'col_audioFile BLOB,'
-  // 'col_fileName TEXT,'
-  'col_patient_fname TEXT,'
-  'col_patient_lname TEXT,'
-  'col_patient_DOB TEXT,'
-  'col_dictationTypeId,'
-  'col_episodeId,'
-  'col_episodeAttachmentRequestId,'
-  'col_attachmentSizeBytes,'
-  'col_attachmentType,'
-  'col_memberId,'
-  'col_statusId,'
-  'col_uploadedToServer,'
-  'col_createdDate,'
-  'col_displayFileName,'
-  'col_physicalFileName,'
-  'col_DOS,'
-  'col_practiceId,'
-  'col_locationId,'
-  'col_providerId,'
-  'col_appointmentTypeId,'
-  'col_photoNameList,'
-  'col_isEmergencyAddOn,'
-  'col_externalDocumentTypeId,'
-  'col_description,'
-  'col_appointmentProvider,'
-  'col_isSelected'
+  'id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,'
+  'dictation_id INTEGER,'
+  // 'col_audioFile BLOB,'
+  'fileName TEXT,'
+  'patient_fname TEXT,'
+  'patient_lname TEXT,'
+  'patient_DOB TEXT,'
+  'dictationTypeId,'
+  'episodeId INT,'
+  'episodeAttachmentRequestId,'
+  'attachmentSizeBytes,'
+  'attachmentType,'
+  'memberId,'
+  'statusId,'
+  'uploadedToServer,'
+  'createdDate,'
+  'displayFileName,'
+  'physicalFileName,'
+  'DOS,'
+  'practiceId,'
+  'locationId,'
+  'providerId,'
+  'appointmentTypeId,'
+  'photoNameList,'
+  'isEmergencyAddOn,'
+  'externalDocumentTypeId,'
+  'description,'
+  'appointmentProvider,'
+  'isSelected'
   ')';
 
   //Table for External Dictation
   static const tableExternalDictation = 'CREATE TABLE External_Table('
       'col_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,'
       'col_externalAttachmentId,'
-      'col_audio_fileName TEXT,'
+      // 'col_audio_fileName TEXT,'
       'col_patient_fname TEXT,'
       'col_patient_lname TEXT,'
       'col_patient_DOB TEXT,'
@@ -145,7 +145,6 @@ class AppStrings {
       'col_createdDate,'
       'col_displayFileName,'
       'col_DOS,'
-      'col_fileName,'
       'col_practiceId,'
       'col_locationId,'
       'col_providerId,'
