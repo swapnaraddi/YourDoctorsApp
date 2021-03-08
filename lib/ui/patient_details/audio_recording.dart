@@ -552,6 +552,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:YOURDRS_FlutterAPP/common/app_colors.dart';
+import 'package:YOURDRS_FlutterAPP/common/app_constants.dart';
 import 'package:YOURDRS_FlutterAPP/common/app_log_helper.dart';
 import 'package:YOURDRS_FlutterAPP/common/app_strings.dart';
 import 'package:YOURDRS_FlutterAPP/data/model/dictation.dart';
@@ -561,6 +562,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:file/local.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
+import 'package:intl/intl.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -586,6 +588,10 @@ class AudioRecorderWidgetState extends State<AudioRecorderWidget> /*with SingleT
   var countdown;
 
   Timer _timer;
+
+  final DateTime now = DateTime.now();
+  final DateFormat formatter = DateFormat(AppConstants.formatter);
+  // final String formatted = formatter.format(now);
 
   @override
   void initState() {
@@ -615,19 +621,27 @@ class AudioRecorderWidgetState extends State<AudioRecorderWidget> /*with SingleT
                   FlatButton(
                       onPressed: () async {
                         _stop();
+                        // final DateTime now = DateTime.now();
+                        // final DateFormat formatter = DateFormat(AppConstants.formatter);
+                        final String formatted = formatter.format(now);
                         var audioFile = await File(_current.path).readAsBytes();
                         DatabaseHelper.db.insertAudio(Dictation(
                           audioFile: audioFile,
                           fileName: widget.dictationTypeId + "_"+
                           AppStrings.patientFName + "_" + AppStrings.caseId +"_"+
-                              '${DateTime.now()}' + ".mp4",
+                              '${formatted}' + ".mp4",
                           patientFirstName: widget.patientFName ?? 'NA',
                           patientLastName: widget.patientLName ?? 'NA',
                           dictationTypeId: widget.dictationTypeId ?? 'NA',
-                          patientDOB: widget.patientDob ?? 'NA'
+                          patientDOB: widget.patientDob ?? 'NA',
+                          createdDate: '${DateTime.now()}' ?? 'NA'
                         ));
                         _init();
                         print("Audio file: $audioFile");
+                        print("Created date: ${DateTime.now()}");
+
+                        // DateFormat("HH:mm:ss-dd MMM, yyyy").format(DateTime.now())});
+
                       },
                       // _currentStatus != RecordingStatus.Unset ? _stop : null,
                       child: Text(
@@ -922,8 +936,9 @@ class AudioRecorderWidgetState extends State<AudioRecorderWidget> /*with SingleT
           appDocDirectory = await getExternalStorageDirectory();
         }
         // can add extension like ".mp4" ".wav" ".m4a" ".aac"
+        final String formatted = formatter.format(now);
         customPath = appDocDirectory.path +
-            '${DateTime.now()}'+
+            '${formatted}'+
             ".mp4";
         String path=appDocDirectory.path;
             createFileName(path);

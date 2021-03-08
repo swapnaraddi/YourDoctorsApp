@@ -1,3 +1,5 @@
+import 'package:YOURDRS_FlutterAPP/common/app_constants.dart';
+
 class AppStrings {
   static const welcome = 'Welcome';
   static const signIn = "Signin";
@@ -35,6 +37,12 @@ class AppStrings {
   static const submitImages="Submit Images";
   static const customPath = "/audio_recorder_";
   static const permissionMsg = "You must accept permissions";
+
+  //Dictations
+  static const textDictation = "Dictations";
+  static const textMyDictation = "My Previous Dictations";
+  static const textAllDictation = "All Previous Dictations";
+  static const textUploaded = "Uploaded";
 
   //Database table
   static const databaseName =  'audio_manager.db';
@@ -108,6 +116,7 @@ class AppStrings {
   'patient_lname TEXT,'
   'patient_DOB TEXT,'
   'dictationTypeId,'
+  'createdDate,'
   'episodeId INT,'
   'episodeAttachmentRequestId,'
   'attachmentSizeBytes,'
@@ -115,7 +124,6 @@ class AppStrings {
   'memberId,'
   'statusId,'
   'uploadedToServer,'
-  'createdDate,'
   'displayFileName,'
   'physicalFileName,'
   'DOS,'
@@ -163,3 +171,10 @@ class AppStrings {
     "OPR",
     ];
 }
+
+class ApiUrlConstants {
+
+  static const getAllPreviousDictations = AppConstants.dioBaseUrl +
+      'api/Dictation/GetPreviousDictations';
+}
+

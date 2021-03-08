@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:YOURDRS_FlutterAPP/common/app_strings.dart';
+import 'package:YOURDRS_FlutterAPP/data/model/previous_dictations.dart';
 import 'package:YOURDRS_FlutterAPP/data/model/dictation.dart';
 import 'package:YOURDRS_FlutterAPP/data/model/external_dictation.dart';
 import 'package:path/path.dart';
@@ -133,7 +134,7 @@ class DatabaseHelper {
   //   return updateRes;
   // }
 
-  Future<List<Dictation>> getAllAudios() async {
+  Future<List<Dictation>> getAllDictations() async {
     var db = await database;
     // final res = await db.rawQuery("SELECT * FROM EMPLOYEE");
 

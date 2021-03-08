@@ -30,4 +30,7 @@ class CustomizedColors {
   static const swicththumbColor = Color.fromRGBO(101, 134, 211, 1);
   static const inactiveTrackColor = Color.fromRGBO(200, 203, 211, 1);
   static const addressTextColor = Color.fromRGBO(85, 85, 85, 1);
+  static const uploadedTextColor = Color.fromRGBO(108,219,151,1);
+  static const dictationListIconColor = Color.fromRGBO(30,82,163, 1);
+  static const appBarColor = Color.fromRGBO(30, 82, 163, 1);
 }

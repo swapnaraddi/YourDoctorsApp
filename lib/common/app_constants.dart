@@ -49,6 +49,11 @@ class AppConstants {
   static const MMM = "MMM";
   static const yyyy = "yyyy";
   static const hhaa = "hh aa";
+  static const formatter = "yyyyMMdd_hhmmss";
+  // static const dateFormatter = "HH:mm:ss-dd MMM, yyyy";
+
+  // Base Url
+  static const dioBaseUrl = 'http://ydrsdevapi.yourdrs.com/';
 
   static String parseDate(int time, String pattern, {DateTime dateTime}) {
     if ((time == null || time < 1) && dateTime == null) {

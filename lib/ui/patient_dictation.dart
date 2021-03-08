@@ -3,6 +3,7 @@ import 'package:YOURDRS_FlutterAPP/blocs/audio_bloc.dart';
 import 'package:YOURDRS_FlutterAPP/common/app_colors.dart';
 import 'package:YOURDRS_FlutterAPP/common/app_strings.dart';
 import 'package:YOURDRS_FlutterAPP/ui/patient_details/audio_recording.dart';
+import 'package:YOURDRS_FlutterAPP/ui/patient_details/dictation_type.dart';
 import 'package:YOURDRS_FlutterAPP/widget/buttons/material_buttons.dart';
 import 'package:YOURDRS_FlutterAPP/widget/buttons/raised_buttons.dart';
 import 'package:flutter/cupertino.dart';
@@ -394,7 +395,9 @@ class Patient_Dectation_State extends State<Patient_Dectation> {
               ),
               RaisedBtn(
                   text: AppStrings.allDictation,
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> DictationType()));
+                  },
                   iconData: Icons.mic_rounded),
               SizedBox(
                 height: 15,
