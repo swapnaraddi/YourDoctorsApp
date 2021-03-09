@@ -21,7 +21,7 @@ class Dictation {
   String patientLastName;
   String patientDOB;
   String caseNumber;
-  String DOS;
+  String dos;
   int practiceId;
   int locationId;
   int providerId;
@@ -36,7 +36,7 @@ class Dictation {
   bool isSelected;
 
   Dictation({this.id, this.audioFile,this.dictationId,this.episodeId,this.episodeAppointmentRequestId,this.attachmentName,this.attachmentSizeBytes,this.attachmentType,this.memberId,this.statusId,this.uploadedToServer,
-  this.createdDate,this.displayFileName,this.fileName,this.physicalFileName,this.patientFirstName,this.patientLastName,this.patientDOB,this.caseNumber,this.DOS,this.practiceId,this.locationId,this.providerId,
+  this.createdDate,this.displayFileName,this.fileName,this.physicalFileName,this.patientFirstName,this.patientLastName,this.patientDOB,this.caseNumber,this.dos,this.practiceId,this.locationId,this.providerId,
     this.appointmentTypeId, this.photoNameList,this.dictationTypeId,this.isEmergencyAddOn,this.externalDocumentTypeId,this.description,this.appointmentProvider,this.isSelected});
 
   Map<String, dynamic> toMap() {
@@ -60,7 +60,7 @@ class Dictation {
       'patientLastName':patientLastName,
       'patientDOB':patientDOB,
       'caseNo':caseNumber,
-      'DOS':DOS,
+      'DOS':dos,
       'practiceId':practiceId,
       'locationId':locationId,
       'providerId':providerId,
@@ -97,7 +97,7 @@ class Dictation {
     patientLastName = map['patientLastName'];
     patientDOB = map['patientDOB'];
     caseNumber = map['caseNo'];
-    DOS = map['DOS'];
+    dos = map['DOS'];
     practiceId = map['practiceId'];
     locationId = map['locationId'];
     providerId = map['providerId'];

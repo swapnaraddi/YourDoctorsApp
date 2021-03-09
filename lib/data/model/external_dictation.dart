@@ -12,7 +12,7 @@ class ExternalDictation {
   String patientFirstName;
   String patientLastName;
   String patientDOB;
-  String DOS;
+  String dos;
   String externalDocumentTypeName;
   int practiceId;
   int locationId;
@@ -35,7 +35,7 @@ class ExternalDictation {
       this.patientFirstName,
       this.patientLastName,
       this.patientDOB,
-      this.DOS,
+      this.dos,
       this.externalDocumentTypeName,
       this.practiceId,
       this.locationId,
@@ -58,7 +58,7 @@ class ExternalDictation {
       'patientFirstName':patientFirstName,
       'patientLastName':patientLastName,
       'patientDOB':patientDOB,
-      'DOS':DOS,
+      'DOS':dos,
       'practiceId':practiceId,
       'locationId':locationId,
       'providerId':providerId,
@@ -82,7 +82,7 @@ class ExternalDictation {
     patientFirstName = map['patientFirstName'];
     patientLastName = map['patientLastName'];
     patientDOB = map['patientDOB'];
-    DOS = map['DOS'];
+    dos = map['DOS'];
     practiceId = map['practiceId'];
     locationId = map['locationId'];
     providerId = map['providerId'];

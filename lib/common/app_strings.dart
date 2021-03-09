@@ -20,10 +20,10 @@ class AppStrings {
   static const superBill = "Super Bill";
   static const allDictation = "All Dictations";
   static const allImages = "All Images";
-  static const patient_dob = "02-12-2021";
+  static const patient_dob = "04-09-1995";
   static const pc_md = "PC_MD";
-  static const patientFName = "Karthik";
-  static const patientLName = "S";
+  static const patientFName = "abcdef";
+  static const patientLName = "nnnnn";
   static const male_28 = "(Male,28)";
   static const dictationPending = "Dictation Pending";
   static const  defaultImage = "https://icon-library.com/images/person-image-icon/person-image-icon-6.jpg";
@@ -31,7 +31,7 @@ class AppStrings {
   static const dateOfbirth="Date of Birth";
   static const caseNo="Case No";
   static const PC_MD="PC-MDS";
-  static const dob="02-07-1992";
+  static const dob="05-07-1996";
   static const caseId="Y3BGCT9812-2";
   static const status="Checked Out";
   static const submitImages="Submit Images";
@@ -102,7 +102,8 @@ class AppStrings {
   static const col_ExternalDes= 'col_description';
 
   //Queries
-  static const deleteAllFile = 'DELETE FROM Audio_Table';
+ static const deleteFilesBefore5min = "DELETE FROM Audio_Table WHERE databaseDateTime <= datetime('now', '-5 minutes')";
+ //  static const deleteAllFile = "DELETE FROM Audio_Table WHERE createdDate = 2021-03-09";
   static const selectQuery = "SELECT * FROM Audio_Table";
 
 
@@ -116,7 +117,7 @@ class AppStrings {
   'patient_lname TEXT,'
   'patient_DOB TEXT,'
   'dictationTypeId,'
-  'createdDate,'
+  'createdDate TEXT,'
   'episodeId INT,'
   'episodeAttachmentRequestId,'
   'attachmentSizeBytes,'

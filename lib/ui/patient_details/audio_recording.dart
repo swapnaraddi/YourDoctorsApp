@@ -568,9 +568,10 @@ import 'package:path_provider/path_provider.dart';
 
 class AudioRecorderWidget extends StatefulWidget {
   final String patientFName,patientLName,patientDob, dictationTypeId;
+  final int databaseDateTime;
 
   const AudioRecorderWidget(
-      {Key key, @required this.patientFName, this.patientLName, this.patientDob, @required this.dictationTypeId})
+      {Key key, @required this.patientFName, this.patientLName, this.patientDob, @required this.dictationTypeId, this.databaseDateTime})
       : super(key: key);
 
   @override
@@ -634,8 +635,11 @@ class AudioRecorderWidgetState extends State<AudioRecorderWidget> /*with SingleT
                           patientLastName: widget.patientLName ?? 'NA',
                           dictationTypeId: widget.dictationTypeId ?? 'NA',
                           patientDOB: widget.patientDob ?? 'NA',
-                          createdDate: '${DateTime.now()}' ?? 'NA'
+                          createdDate: '${DateTime.now().millisecondsSinceEpoch}' ?? 'NA',
                         ));
+
+                        // DatabaseHelper.db.deleteAllAudios();
+
                         _init();
                         print("Audio file: $audioFile");
                         print("Created date: ${DateTime.now()}");

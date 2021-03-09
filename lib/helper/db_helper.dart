@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:YOURDRS_FlutterAPP/common/app_strings.dart';
-import 'package:YOURDRS_FlutterAPP/data/model/previous_dictations.dart';
 import 'package:YOURDRS_FlutterAPP/data/model/dictation.dart';
 import 'package:YOURDRS_FlutterAPP/data/model/external_dictation.dart';
 import 'package:path/path.dart';
@@ -41,7 +40,7 @@ class DatabaseHelper {
 
   // Insert Audio and Manual dictation
   insertAudio(Dictation newAudio) async {
-    // await deleteAllAudios();
+    await deleteAllAudios();
     var db = await database;
 
     //Exception handling
@@ -65,7 +64,7 @@ class DatabaseHelper {
         AppStrings.col_UploadedToServer:newAudio.uploadedToServer,
         AppStrings.col_DisplayFileName:newAudio.displayFileName,
         AppStrings.col_PhysicalFileName:newAudio.physicalFileName,
-        AppStrings.col_DOS:newAudio.DOS,
+        AppStrings.col_DOS:newAudio.dos,
         AppStrings.col_PracticeId:newAudio.practiceId,
         AppStrings.col_LocationId:newAudio.locationId,
         AppStrings.col_ProviderId:newAudio.providerId,
@@ -75,7 +74,7 @@ class DatabaseHelper {
         AppStrings.col_ExternalDocumentTypeId:newAudio.externalDocumentTypeId,
         AppStrings.col_Description:newAudio.description,
         AppStrings.col_AppointmentProvider:newAudio.appointmentProvider,
-        AppStrings.col_isSelected:newAudio.isSelected
+        AppStrings.col_isSelected:newAudio.isSelected,
 
       });
       print("insertAudio $res");
@@ -102,7 +101,7 @@ class DatabaseHelper {
         AppStrings.col_ExternalStatusId:eDict.statusId,
         AppStrings.col_ExternalUploadedToServer:eDict.uploadedToServer,
         AppStrings.col_ExternalDisplayFileName:eDict.displayFileName,
-        AppStrings.col_ExternalDOS:eDict.DOS,
+        AppStrings.col_ExternalDOS:eDict.dos,
         AppStrings.col_ExternalPracticeId:eDict.practiceId,
         AppStrings.col_ExternalLocationId:eDict.locationId,
         AppStrings.col_ExternalAppointmentTypeId:eDict.appointmentTypeId,
@@ -119,10 +118,10 @@ class DatabaseHelper {
     }
   }
 
-  // Delete all Audios
-  Future<int> deleteAllAudios() async {
+  // Delete all Audios files
+   deleteAllAudios({int minutes = 5}) async {
     var db = await database;
-    var res = await db.rawDelete(AppStrings.deleteAllFile);
+    var res = await db.rawDelete("DELETE FROM Audio_Table WHERE createdDate <= datetime('now', '-${minutes} minutes')");
 
     return res;
   }
