@@ -47,7 +47,7 @@ class AppStrings {
   //Database table
   static const databaseName =  'audio_manager.db';
   static const dbTableDictation = "Audio_Table";
-  static const dbTableExternalDictation = 'External_Dictation';
+  static const dbTableExternalDictation = 'External_Table';
 
   //Patient dictation and Manual dictation columns
   static const colId = 'id';
@@ -102,9 +102,11 @@ class AppStrings {
   static const col_ExternalDes= 'col_description';
 
   //Queries
- static const deleteFilesBefore5min = "DELETE FROM Audio_Table WHERE databaseDateTime <= datetime('now', '-5 minutes')";
- //  static const deleteAllFile = "DELETE FROM Audio_Table WHERE createdDate = 2021-03-09";
+  static const deleteOlderFiles = "DELETE FROM Audio_Table WHERE date(createdDate) < date('now')";
   static const selectQuery = "SELECT * FROM Audio_Table";
+
+  // static const deleteFiles = "DELETE Audio_Table.id, Audio_Table.createddate,"
+  //     "date(Audio_Table.createddate) dt, date('now') FROM 'Audio_Table' where date(Audio_Table.createddate) < date('now')";
 
 
   //Table for Patient Dictation and Manual Dictation

@@ -30,17 +30,18 @@ class DatabaseHelper {
 
     return await openDatabase(path, version: 1, onOpen: (db) {},
         onCreate: (Database db, int version) async {
-      await db.execute(AppStrings.tableDictation
-      );
+          await db.execute(AppStrings.tableDictation
+          );
 
-      await db.execute(AppStrings.tableExternalDictation
-      );
-    });
+          await db.execute(AppStrings.tableExternalDictation
+          );
+        });
   }
 
   // Insert Audio and Manual dictation
   insertAudio(Dictation newAudio) async {
-    await deleteAllAudios();
+    await getVaraByDate();
+
     var db = await database;
 
     //Exception handling
@@ -54,35 +55,35 @@ class DatabaseHelper {
         AppStrings.col_PatientLname: newAudio.patientLastName,
         AppStrings.col_CreatedDate: newAudio.createdDate,
         AppStrings.col_Patient_DOB: newAudio.patientDOB,
-        AppStrings.col_DictationTypeId:newAudio.dictationTypeId,
-        AppStrings.col_EpisodeId:newAudio.episodeId,
-        AppStrings.col_EpisodeAttachmentRequestId:newAudio.episodeAppointmentRequestId,
-        AppStrings.col_attachmentSizeBytes:newAudio.attachmentSizeBytes,
-        AppStrings.col_attachmentType:newAudio.attachmentType,
-        AppStrings.col_MemberId:newAudio.memberId,
-        AppStrings.col_StatusId:newAudio.statusId,
-        AppStrings.col_UploadedToServer:newAudio.uploadedToServer,
-        AppStrings.col_DisplayFileName:newAudio.displayFileName,
-        AppStrings.col_PhysicalFileName:newAudio.physicalFileName,
-        AppStrings.col_DOS:newAudio.dos,
-        AppStrings.col_PracticeId:newAudio.practiceId,
-        AppStrings.col_LocationId:newAudio.locationId,
-        AppStrings.col_ProviderId:newAudio.providerId,
-        AppStrings.col_AppointmentTypeId:newAudio.appointmentTypeId,
-        AppStrings.col_PhotoNameList:newAudio.photoNameList,
-        AppStrings.col_isEmergencyAddOn:newAudio.isEmergencyAddOn,
-        AppStrings.col_ExternalDocumentTypeId:newAudio.externalDocumentTypeId,
-        AppStrings.col_Description:newAudio.description,
-        AppStrings.col_AppointmentProvider:newAudio.appointmentProvider,
-        AppStrings.col_isSelected:newAudio.isSelected,
+        AppStrings.col_DictationTypeId: newAudio.dictationTypeId,
+        AppStrings.col_EpisodeId: newAudio.episodeId,
+        AppStrings.col_EpisodeAttachmentRequestId: newAudio.episodeAppointmentRequestId,
+        AppStrings.col_attachmentSizeBytes: newAudio.attachmentSizeBytes,
+        AppStrings.col_attachmentType: newAudio.attachmentType,
+        AppStrings.col_MemberId: newAudio.memberId,
+        AppStrings.col_StatusId: newAudio.statusId,
+        AppStrings.col_UploadedToServer: newAudio.uploadedToServer,
+        AppStrings.col_DisplayFileName: newAudio.displayFileName,
+        AppStrings.col_PhysicalFileName: newAudio.physicalFileName,
+        AppStrings.col_DOS: newAudio.dos,
+        AppStrings.col_PracticeId: newAudio.practiceId,
+        AppStrings.col_LocationId: newAudio.locationId,
+        AppStrings.col_ProviderId: newAudio.providerId,
+        AppStrings.col_AppointmentTypeId: newAudio.appointmentTypeId,
+        AppStrings.col_PhotoNameList: newAudio.photoNameList,
+        AppStrings.col_isEmergencyAddOn: newAudio.isEmergencyAddOn,
+        AppStrings.col_ExternalDocumentTypeId: newAudio.externalDocumentTypeId,
+        AppStrings.col_Description: newAudio.description,
+        AppStrings.col_AppointmentProvider: newAudio.appointmentProvider,
+        AppStrings.col_isSelected: newAudio.isSelected,
 
       });
       print("insertAudio $res");
       return res;
     }
-  catch (e){
+    catch (e) {
       print(e.toString());
-  }
+    }
   }
 
   // Insert External Dictation
@@ -92,39 +93,65 @@ class DatabaseHelper {
     //Exception handling
     try {
       var externalDict = await db.insert(AppStrings.dbTableExternalDictation, {
-        AppStrings.col_External_Id:eDict,
+        AppStrings.col_External_Id: eDict,
         AppStrings.col_ExternalPatientFname: eDict.patientFirstName,
         AppStrings.col_ExternalPatientLname: eDict.patientLastName,
         AppStrings.col_ExternalCreatedDate: eDict.createdDate,
         AppStrings.col_ExternalPatient_DOB: eDict.patientDOB,
-        AppStrings.col_ExternalMemberId:eDict.memberId,
-        AppStrings.col_ExternalStatusId:eDict.statusId,
-        AppStrings.col_ExternalUploadedToServer:eDict.uploadedToServer,
-        AppStrings.col_ExternalDisplayFileName:eDict.displayFileName,
-        AppStrings.col_ExternalDOS:eDict.dos,
-        AppStrings.col_ExternalPracticeId:eDict.practiceId,
-        AppStrings.col_ExternalLocationId:eDict.locationId,
-        AppStrings.col_ExternalAppointmentTypeId:eDict.appointmentTypeId,
-        AppStrings.col_ExternalisEmergencyAddOn:eDict.isEmergencyAddOn,
-        AppStrings.col_Ex_ExternalDocumentTypeId:eDict.externalDocumentTypeId,
-        AppStrings.col_ExternalDes:eDict.description
-
+        AppStrings.col_ExternalMemberId: eDict.memberId,
+        AppStrings.col_ExternalStatusId: eDict.statusId,
+        AppStrings.col_ExternalUploadedToServer: eDict.uploadedToServer,
+        AppStrings.col_ExternalDisplayFileName: eDict.displayFileName,
+        AppStrings.col_ExternalDOS: eDict.dos,
+        AppStrings.col_ExternalPracticeId: eDict.practiceId,
+        AppStrings.col_ExternalLocationId: eDict.locationId,
+        AppStrings.col_ExternalAppointmentTypeId: eDict.appointmentTypeId,
+        AppStrings.col_ExternalisEmergencyAddOn: eDict.isEmergencyAddOn,
+        AppStrings.col_Ex_ExternalDocumentTypeId: eDict.externalDocumentTypeId,
+        AppStrings.col_ExternalDes: eDict.description
       });
-      // print("insertAudio $externalDict ${newAudio.audioFile.length}");
+      // print("insertAudio $externalDict");
       return externalDict;
     }
-    catch (e){
+    catch (e) {
       print(e.toString());
     }
   }
 
   // Delete all Audios files
-   deleteAllAudios({int minutes = 5}) async {
-    var db = await database;
-    var res = await db.rawDelete("DELETE FROM Audio_Table WHERE createdDate <= datetime('now', '-${minutes} minutes')");
+  // deleteAllAudios() async {
+  //   var db = await database;
+  //   var res = await db.rawDelete(AppStrings.deleteOlderFiles);
+  //   print("Records deleted: $res");
+  //   return res;
+  // }
 
-    return res;
+  Future getVaraByDate() async {
+    DateTime now = new DateTime.now();
+    var date = now.toString().substring(0,10);
+
+    final sql = '''SELECT * FROM Audio_Table WHERE Audio_Table.date(createdDate) <= $date''';
+    print("Deleted items arerrrrrrrrrrrrrrrrrrrrrr: $sql");
+    return sql;
+    // List<Map> result = await db.rawQuery(sql);
+    // if(result.isNotEmpty){
+    //   var firstResult = result[0];
+    //   var dateResult = firstResult.values.elementAt(2);
+    //   print(dateResult);
+    //   return dateResult;
+    // } else {
+    //   print("No matches");
+    // }
   }
+
+  // deleteAllAudios({int minutes = 5}) async {
+  //   var db = await database;
+  //   // DateTime now = new DateTime.now();
+  //   var res = await db.rawDelete("DELETE FROM Audio_Table WHERE date(createdDate) < datetime('now', '-${minutes} minutes')");
+  //   print("the datetime response issssssssss $res");
+  //   return res;
+  // }
+
 
   // Future<int> updateAudios() async {
   //   final db = await database;
@@ -145,20 +172,18 @@ class DatabaseHelper {
 
       List<Dictation> list = res.isNotEmpty
           ? res.map((c) {
-              print('res.map $c');
+        print('res.map $c');
 
-              var user = Dictation.fromMap(c);
-              return user;
-            }).toList()
+        var user = Dictation.fromMap(c);
+        return user;
+      }).toList()
           : [];
       print(list);
       return list;
-
     } catch (e) {
       print(e.toString());
     }
   }
-
-  //Close the Databse
-  //  db.close();
+  //close the db
+  // db.close();
 }

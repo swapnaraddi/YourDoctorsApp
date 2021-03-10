@@ -568,10 +568,9 @@ import 'package:path_provider/path_provider.dart';
 
 class AudioRecorderWidget extends StatefulWidget {
   final String patientFName,patientLName,patientDob, dictationTypeId;
-  final int databaseDateTime;
 
   const AudioRecorderWidget(
-      {Key key, @required this.patientFName, this.patientLName, this.patientDob, @required this.dictationTypeId, this.databaseDateTime})
+      {Key key, @required this.patientFName, this.patientLName, this.patientDob, @required this.dictationTypeId})
       : super(key: key);
 
   @override
@@ -626,6 +625,8 @@ class AudioRecorderWidgetState extends State<AudioRecorderWidget> /*with SingleT
                         // final DateFormat formatter = DateFormat(AppConstants.formatter);
                         final String formatted = formatter.format(now);
                         var audioFile = await File(_current.path).readAsBytes();
+
+                        //Insert dictation data
                         DatabaseHelper.db.insertAudio(Dictation(
                           audioFile: audioFile,
                           fileName: widget.dictationTypeId + "_"+
@@ -635,10 +636,10 @@ class AudioRecorderWidgetState extends State<AudioRecorderWidget> /*with SingleT
                           patientLastName: widget.patientLName ?? 'NA',
                           dictationTypeId: widget.dictationTypeId ?? 'NA',
                           patientDOB: widget.patientDob ?? 'NA',
-                          createdDate: '${DateTime.now().millisecondsSinceEpoch}' ?? 'NA',
+                          createdDate: '${DateTime.now()}' ?? 'NA',
                         ));
 
-                        // DatabaseHelper.db.deleteAllAudios();
+                        // DatabaseHelper.db.getVaraByDate();
 
                         _init();
                         print("Audio file: $audioFile");
@@ -1055,6 +1056,7 @@ class AudioRecorderWidgetState extends State<AudioRecorderWidget> /*with SingleT
     });
   }
 
+  //stop the record
   _stop() async {
     var result = await _recorder.stop();
     print("Stop recording: ${result.duration} ${result.path}");
