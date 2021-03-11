@@ -1,4 +1,4 @@
-class ExternalDictation {
+class ExternalAttachment {
   int id;
   int externalAttachmentId;
   int memberId ;
@@ -7,22 +7,25 @@ class ExternalDictation {
   int statusId;
   String createdDate;
   String displayFileName;
-  String photoNameList;
   String fileName; //name of the audio file
   String patientFirstName;
   String patientLastName;
   String patientDOB;
   String dos;
-  String externalDocumentTypeName;
+  String externalDocumentType;
   int practiceId;
+  String practiceName;
   int locationId;
+  String locationName;
   int providerId;
+  String providerName;
   int appointmentTypeId;
+  String appointmentType;
   bool isEmergencyAddOn;
   int externalDocumentTypeId;
   String description;
 
-  ExternalDictation({
+  ExternalAttachment({
       this.id,
       this.externalAttachmentId,
       this.memberId,
@@ -30,17 +33,20 @@ class ExternalDictation {
       this.uploadedToServer,
       this.createdDate,
       this.displayFileName,
-      this.photoNameList,
       this.fileName,
       this.patientFirstName,
       this.patientLastName,
       this.patientDOB,
       this.dos,
-      this.externalDocumentTypeName,
+      this.externalDocumentType,
       this.practiceId,
+      this.practiceName,
       this.locationId,
+      this.locationName,
       this.providerId,
+      this.providerName,
       this.appointmentTypeId,
+      this.appointmentType,
       this.isEmergencyAddOn,
       this.externalDocumentTypeId,
       this.description});
@@ -60,10 +66,13 @@ class ExternalDictation {
       'patientDOB':patientDOB,
       'DOS':dos,
       'practiceId':practiceId,
+      'practiceName':providerName,
       'locationId':locationId,
+      'locationName':locationName,
       'providerId':providerId,
+      'providerName':providerName,
       'appointmentTypeId':appointmentTypeId,
-      'photoNameList':photoNameList,
+      'appointmentType':appointmentType,
       'isEmergencyAddOn':isEmergencyAddOn,
       'externalDocumentTypeId':externalDocumentTypeId,
       'description':description,
@@ -71,7 +80,7 @@ class ExternalDictation {
     return map;
   }
 
-  ExternalDictation.fromMap(Map<String, dynamic> map) {
+  ExternalAttachment.fromMap(Map<String, dynamic> map) {
     id = map['id'];
     memberId = map['memberId'];
     statusId = map['statusId'];
@@ -84,10 +93,13 @@ class ExternalDictation {
     patientDOB = map['patientDOB'];
     dos = map['DOS'];
     practiceId = map['practiceId'];
+    practiceName = map['practiceName'];
     locationId = map['locationId'];
+    locationName = map['locationName'];
     providerId = map['providerId'];
+    providerName = map['providerName'];
     appointmentTypeId = map['appointmentTypeId'];
-    photoNameList = map['photoNameList'];
+    appointmentType = map['appointmentType'];
     isEmergencyAddOn = map['isEmergencyAddOn'];
     externalDocumentTypeId = map['externalDocumentTypeId'];
     description = map['description'];

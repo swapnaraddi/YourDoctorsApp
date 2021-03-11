@@ -1,7 +1,8 @@
 import 'dart:io';
 import 'package:YOURDRS_FlutterAPP/common/app_strings.dart';
 import 'package:YOURDRS_FlutterAPP/data/model/dictation.dart';
-import 'package:YOURDRS_FlutterAPP/data/model/external_dictation.dart';
+import 'package:YOURDRS_FlutterAPP/data/model/external_attachment.dart';
+import 'package:YOURDRS_FlutterAPP/data/model/photo_list.dart';
 import 'package:path/path.dart';
 
 import 'package:path_provider/path_provider.dart';
@@ -33,14 +34,14 @@ class DatabaseHelper {
           await db.execute(AppStrings.tableDictation
           );
 
-          await db.execute(AppStrings.tableExternalDictation
+          await db.execute(AppStrings.tableExternalAttachment
           );
         });
   }
 
   // Insert Audio and Manual dictation
   insertAudio(Dictation newAudio) async {
-    await getVaraByDate();
+    // await deleteAllAudios();
 
     var db = await database;
 
@@ -57,7 +58,6 @@ class DatabaseHelper {
         AppStrings.col_Patient_DOB: newAudio.patientDOB,
         AppStrings.col_DictationTypeId: newAudio.dictationTypeId,
         AppStrings.col_EpisodeId: newAudio.episodeId,
-        AppStrings.col_EpisodeAttachmentRequestId: newAudio.episodeAppointmentRequestId,
         AppStrings.col_attachmentSizeBytes: newAudio.attachmentSizeBytes,
         AppStrings.col_attachmentType: newAudio.attachmentType,
         AppStrings.col_MemberId: newAudio.memberId,
@@ -67,10 +67,13 @@ class DatabaseHelper {
         AppStrings.col_PhysicalFileName: newAudio.physicalFileName,
         AppStrings.col_DOS: newAudio.dos,
         AppStrings.col_PracticeId: newAudio.practiceId,
+        AppStrings.col_PracticeName:newAudio.practiceName,
         AppStrings.col_LocationId: newAudio.locationId,
+        AppStrings.col_LocationName:newAudio.locationName,
         AppStrings.col_ProviderId: newAudio.providerId,
+        AppStrings.col_ProviderName:newAudio.providerName,
         AppStrings.col_AppointmentTypeId: newAudio.appointmentTypeId,
-        AppStrings.col_PhotoNameList: newAudio.photoNameList,
+        AppStrings.col_AppointmentId:newAudio.appointmentId,
         AppStrings.col_isEmergencyAddOn: newAudio.isEmergencyAddOn,
         AppStrings.col_ExternalDocumentTypeId: newAudio.externalDocumentTypeId,
         AppStrings.col_Description: newAudio.description,
@@ -87,13 +90,14 @@ class DatabaseHelper {
   }
 
   // Insert External Dictation
-  insertExternalDictationData(ExternalDictation eDict) async {
+  insertExternalAttachmentData(ExternalAttachment eDict) async {
     var db = await database;
 
     //Exception handling
     try {
-      var externalDict = await db.insert(AppStrings.dbTableExternalDictation, {
-        AppStrings.col_External_Id: eDict,
+      var externalDict = await db.insert(AppStrings.dbTableExternalAttachment, {
+        AppStrings.col_External_Id: eDict.id,
+        AppStrings.col_ExternalAttachmentId:eDict.externalAttachmentId,
         AppStrings.col_ExternalPatientFname: eDict.patientFirstName,
         AppStrings.col_ExternalPatientLname: eDict.patientLastName,
         AppStrings.col_ExternalCreatedDate: eDict.createdDate,
@@ -104,8 +108,13 @@ class DatabaseHelper {
         AppStrings.col_ExternalDisplayFileName: eDict.displayFileName,
         AppStrings.col_ExternalDOS: eDict.dos,
         AppStrings.col_ExternalPracticeId: eDict.practiceId,
+        AppStrings.col_ExternalPracticeName:eDict.practiceName,
         AppStrings.col_ExternalLocationId: eDict.locationId,
+        AppStrings.col_ExternalLocationName:eDict.locationName,
+        AppStrings.col_ExternalProviderId:eDict.providerId,
+        AppStrings.col_ExternalProviderName:eDict.providerName,
         AppStrings.col_ExternalAppointmentTypeId: eDict.appointmentTypeId,
+        AppStrings.col_ExternalAppointmentType:eDict.appointmentType,
         AppStrings.col_ExternalisEmergencyAddOn: eDict.isEmergencyAddOn,
         AppStrings.col_Ex_ExternalDocumentTypeId: eDict.externalDocumentTypeId,
         AppStrings.col_ExternalDes: eDict.description
@@ -118,6 +127,40 @@ class DatabaseHelper {
     }
   }
 
+  //insert photo list
+  insertPhotoList(PhotoList photoList) async {
+    var db = await database;
+
+    //exception handling
+    try{
+      var externalPhoroList = await db.insert(AppStrings.dbTablePhotoList, {
+        AppStrings.col_PhotoList_Id:photoList.id,
+        AppStrings.col_PhotoListDictationId:photoList.dictationLocalId,
+        AppStrings.col_PhotoListExternalAttachmentId:photoList.externalattachmentlocalid,
+        AppStrings.col_PhotoListAttachmentName:photoList.attachmentname,
+        AppStrings.col_PhotoListAttachmentSizeBytes:photoList.attachmentsizebytes,
+        AppStrings.col_PhotoListAttachmentAttachmentType:photoList.attachmenttype,
+        AppStrings.col_PhotoListAttachmentFileName:photoList.fileName,
+        AppStrings.col_PhotoListAttachmentPhysicalFileName:photoList.physicalfilename,
+        AppStrings.col_PhotoListAttachmentCreatedDate:photoList.createddate
+      });
+      return externalPhoroList;
+      
+    }catch (e){
+      print(e.toString());
+    }
+  }
+
+  deleteAllAudios() async {
+    var db = await database;
+    DateTime now = new DateTime.now();
+    // var res = await db.rawDelete("DELETE FROM dictationlocal WHERE createdDate < date('now')");
+    var res = await db.rawDelete("DELETE FROM dictationlocal WHERE createdDate <= date('now','-30 day')");
+    print("Audios Deleteddddddddddddddddddd $res");
+    return res;
+  }
+
+
   // Delete all Audios files
   // deleteAllAudios() async {
   //   var db = await database;
@@ -126,23 +169,23 @@ class DatabaseHelper {
   //   return res;
   // }
 
-  Future getVaraByDate() async {
-    DateTime now = new DateTime.now();
-    var date = now.toString().substring(0,10);
-
-    final sql = '''SELECT * FROM Audio_Table WHERE Audio_Table.date(createdDate) <= $date''';
-    print("Deleted items arerrrrrrrrrrrrrrrrrrrrrr: $sql");
-    return sql;
-    // List<Map> result = await db.rawQuery(sql);
-    // if(result.isNotEmpty){
-    //   var firstResult = result[0];
-    //   var dateResult = firstResult.values.elementAt(2);
-    //   print(dateResult);
-    //   return dateResult;
-    // } else {
-    //   print("No matches");
-    // }
-  }
+  // Future getVaraByDate() async {
+  //   DateTime now = new DateTime.now();
+  //   var date = now.toString().substring(0,10);
+  //
+  //   final sql = '''SELECT * FROM Audio_Table WHERE Audio_Table.date(createdDate) <= $date''';
+  //   print("Deleted items arerrrrrrrrrrrrrrrrrrrrrr: $sql");
+  //   return sql;
+  //   // List<Map> result = await db.rawQuery(sql);
+  //   // if(result.isNotEmpty){
+  //   //   var firstResult = result[0];
+  //   //   var dateResult = firstResult.values.elementAt(2);
+  //   //   print(dateResult);
+  //   //   return dateResult;
+  //   // } else {
+  //   //   print("No matches");
+  //   // }
+  // }
 
   // deleteAllAudios({int minutes = 5}) async {
   //   var db = await database;
@@ -153,13 +196,15 @@ class DatabaseHelper {
   // }
 
 
-  // Future<int> updateAudios() async {
-  //   final db = await database;
-  //   final updateRes = await db.rawUpdate("UPDATE User SET username = 'John' WHERE id = 1");
-  //   print(updateRes);
-  //   return updateRes;
-  // }
+  //Update the records
+  Future<int> updateRecords() async {
+    final db = await database;
+    final updateRes = await db.rawUpdate("UPDATE dictationlocal WHERE 'id=?', whereArgs: [dictationlocal.id]");
+    print(updateRes);
+    return updateRes;
+  }
 
+  //Fetch all the records
   Future<List<Dictation>> getAllDictations() async {
     var db = await database;
     // final res = await db.rawQuery("SELECT * FROM EMPLOYEE");

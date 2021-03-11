@@ -1,4 +1,3 @@
-
 import 'dart:typed_data';
 
 class Dictation {
@@ -6,7 +5,6 @@ class Dictation {
   Uint8List audioFile;
   String dictationId;
   int episodeId;
-  int episodeAppointmentRequestId;
   String attachmentName;
   int attachmentSizeBytes;
   String attachmentType;
@@ -15,19 +13,21 @@ class Dictation {
   bool uploadedToServer;
   String createdDate;
   String displayFileName;
-  String fileName;  //name of the audio file
+  String fileName; //name of the audio file
   String physicalFileName; //path
   String patientFirstName;
   String patientLastName;
   String patientDOB;
-  String caseNumber;
   String dos;
   int practiceId;
+  String practiceName;
   int locationId;
+  String locationName;
   int providerId;
+  String providerName;
   int appointmentTypeId;
+  int appointmentId;
   // String CPTCodeIds;
-  String photoNameList;
   String dictationTypeId;
   bool isEmergencyAddOn;
   int externalDocumentTypeId;
@@ -35,44 +35,75 @@ class Dictation {
   String appointmentProvider;
   bool isSelected;
 
-  Dictation({this.id, this.audioFile,this.dictationId,this.episodeId,this.episodeAppointmentRequestId,this.attachmentName,this.attachmentSizeBytes,this.attachmentType,this.memberId,this.statusId,this.uploadedToServer,
-  this.createdDate,this.displayFileName,this.fileName,this.physicalFileName,this.patientFirstName,this.patientLastName,this.patientDOB,this.caseNumber,this.dos,this.practiceId,this.locationId,this.providerId,
-    this.appointmentTypeId, this.photoNameList,this.dictationTypeId,this.isEmergencyAddOn,this.externalDocumentTypeId,this.description,this.appointmentProvider,this.isSelected});
+  Dictation(
+      {this.id,
+      this.audioFile,
+      this.dictationId,
+      this.episodeId,
+      this.attachmentName,
+      this.attachmentSizeBytes,
+      this.attachmentType,
+      this.memberId,
+      this.statusId,
+      this.uploadedToServer,
+      this.createdDate,
+      this.displayFileName,
+      this.fileName,
+      this.physicalFileName,
+      this.patientFirstName,
+      this.patientLastName,
+      this.patientDOB,
+      this.dos,
+      this.practiceId,
+      this.practiceName,
+      this.locationId,
+      this.locationName,
+      this.providerId,
+      this.providerName,
+      this.appointmentTypeId,
+      this.appointmentId,
+      this.dictationTypeId,
+      this.isEmergencyAddOn,
+      this.externalDocumentTypeId,
+      this.description,
+      this.appointmentProvider,
+      this.isSelected});
 
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
       'id': id,
       'audioFile': audioFile,
       'dictation_id': dictationId,
-      'episode_id' : episodeId,
-      'episodeAppointmentRequestId' : episodeAppointmentRequestId,
+      'episode_id': episodeId,
       'attachmentName': attachmentName,
-      'attachmentSizeBytes':attachmentSizeBytes,
-      'attachmentType':attachmentType,
-      'memberId':memberId,
-      'statusId':statusId,
-      'uploadedToServer':uploadedToServer,
-      'createdDate':createdDate,
-      'displayFileName':displayFileName,
-      'fileName':fileName,
-      'physicalFileName':physicalFileName,
-      'patientFirstName':patientFirstName,
-      'patientLastName':patientLastName,
-      'patientDOB':patientDOB,
-      'caseNo':caseNumber,
-      'DOS':dos,
-      'practiceId':practiceId,
-      'locationId':locationId,
-      'providerId':providerId,
-      'appointmentTypeId':appointmentTypeId,
+      'attachmentSizeBytes': attachmentSizeBytes,
+      'attachmentType': attachmentType,
+      'memberId': memberId,
+      'statusId': statusId,
+      'uploadedToServer': uploadedToServer,
+      'createdDate': createdDate,
+      'displayFileName': displayFileName,
+      'fileName': fileName,
+      'physicalFileName': physicalFileName,
+      'patientFirstName': patientFirstName,
+      'patientLastName': patientLastName,
+      'patientDOB': patientDOB,
+      'DOS': dos,
+      'practiceId': practiceId,
+      'practiceName':practiceName,
+      'locationId': locationId,
+      'locationName':locationName,
+      'providerId': providerId,
+      'providerName':providerName,
+      'appointmentTypeId': appointmentTypeId,
       // 'CPTCodeIds':CPTCodeIds,
-      'photoNameList':photoNameList,
-      'dictationTypeId':dictationTypeId,
-      'isEmergencyAddOn':isEmergencyAddOn,
-      'externalDocumentTypeId':externalDocumentTypeId,
-      'description':description,
-      'appointmentProvider':appointmentProvider,
-      'isSelected':isSelected
+      'dictationTypeId': dictationTypeId,
+      'isEmergencyAddOn': isEmergencyAddOn,
+      'externalDocumentTypeId': externalDocumentTypeId,
+      'appointmentId':appointmentId,
+      'description': description,
+      'appointmentProvider': appointmentProvider,
+      'isSelected': isSelected
     };
     return map;
   }
@@ -82,7 +113,6 @@ class Dictation {
     audioFile = map['audioFile'];
     dictationId = map['dictation_id'];
     episodeId = map['episode_id'];
-    episodeAppointmentRequestId = map['episodeAppointmentRequestId'];
     attachmentName = map['attachmentName'];
     attachmentSizeBytes = map['attachmentSizeBytes'];
     attachmentType = map['attachmentType'];
@@ -96,14 +126,15 @@ class Dictation {
     patientFirstName = map['patientFirstName'];
     patientLastName = map['patientLastName'];
     patientDOB = map['patientDOB'];
-    caseNumber = map['caseNo'];
     dos = map['DOS'];
     practiceId = map['practiceId'];
+    practiceName = map['practiceName'];
     locationId = map['locationId'];
+    locationName = map['locationName'];
     providerId = map['providerId'];
+    providerName = map['providerName'];
     appointmentTypeId = map['appointmentTypeId'];
     // CPTCodeIds = map['CPTCodeIds'];
-    photoNameList = map['photoNameList'];
     dictationTypeId = map['dictationTypeId'];
     isEmergencyAddOn = map['isEmergencyAddOn'];
     externalDocumentTypeId = map['externalDocumentTypeId'];

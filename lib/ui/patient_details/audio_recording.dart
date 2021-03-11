@@ -627,7 +627,8 @@ class AudioRecorderWidgetState extends State<AudioRecorderWidget> /*with SingleT
                         var audioFile = await File(_current.path).readAsBytes();
 
                         //Insert dictation data
-                        DatabaseHelper.db.insertAudio(Dictation(
+                        DatabaseHelper.db.insertAudio(
+                            Dictation(
                           audioFile: audioFile,
                           fileName: widget.dictationTypeId + "_"+
                           AppStrings.patientFName + "_" + AppStrings.caseId +"_"+
@@ -639,7 +640,7 @@ class AudioRecorderWidgetState extends State<AudioRecorderWidget> /*with SingleT
                           createdDate: '${DateTime.now()}' ?? 'NA',
                         ));
 
-                        // DatabaseHelper.db.getVaraByDate();
+                        DatabaseHelper.db.deleteAllAudios();
 
                         _init();
                         print("Audio file: $audioFile");
