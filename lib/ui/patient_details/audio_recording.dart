@@ -555,7 +555,7 @@ import 'package:YOURDRS_FlutterAPP/common/app_colors.dart';
 import 'package:YOURDRS_FlutterAPP/common/app_constants.dart';
 import 'package:YOURDRS_FlutterAPP/common/app_log_helper.dart';
 import 'package:YOURDRS_FlutterAPP/common/app_strings.dart';
-import 'package:YOURDRS_FlutterAPP/data/model/dictation.dart';
+import 'package:YOURDRS_FlutterAPP/data/model/patient_dictation.dart';
 import 'package:YOURDRS_FlutterAPP/helper/db_helper.dart';
 import 'package:audio_wave/audio_wave.dart';
 import 'package:audioplayers/audioplayers.dart';
@@ -567,17 +567,22 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
 class AudioRecorderWidget extends StatefulWidget {
-  final String patientFName,patientLName,patientDob, dictationTypeId;
+  final String patientFName, patientLName, patientDob, dictationTypeId;
 
   const AudioRecorderWidget(
-      {Key key, @required this.patientFName, this.patientLName, this.patientDob, @required this.dictationTypeId})
+      {Key key,
+      @required this.patientFName,
+      this.patientLName,
+      this.patientDob,
+      @required this.dictationTypeId})
       : super(key: key);
 
   @override
   State<StatefulWidget> createState() => new AudioRecorderWidgetState();
 }
 
-class AudioRecorderWidgetState extends State<AudioRecorderWidget> /*with SingleTickerProviderStateMixin*/ {
+class AudioRecorderWidgetState
+    extends State<AudioRecorderWidget> /*with SingleTickerProviderStateMixin*/ {
 // AnimationController _animationController;
 // bool isPlaying = false;
 
@@ -590,7 +595,8 @@ class AudioRecorderWidgetState extends State<AudioRecorderWidget> /*with SingleT
   Timer _timer;
 
   final DateTime now = DateTime.now();
-  final DateFormat formatter = DateFormat(AppConstants.formatter);
+  final DateFormat formatter = DateFormat(AppConstants.dateFormat);
+
   // final String formatted = formatter.format(now);
 
   @override
@@ -623,31 +629,17 @@ class AudioRecorderWidgetState extends State<AudioRecorderWidget> /*with SingleT
                         _stop();
                         // final DateTime now = DateTime.now();
                         // final DateFormat formatter = DateFormat(AppConstants.formatter);
-                        final String formatted = formatter.format(now);
-                        var audioFile = await File(_current.path).readAsBytes();
 
-                        //Insert dictation data
-                        DatabaseHelper.db.insertAudio(
-                            Dictation(
-                          audioFile: audioFile,
-                          fileName: widget.dictationTypeId + "_"+
-                          AppStrings.patientFName + "_" + AppStrings.caseId +"_"+
-                              '${formatted}' + ".mp4",
-                          patientFirstName: widget.patientFName ?? 'NA',
-                          patientLastName: widget.patientLName ?? 'NA',
-                          dictationTypeId: widget.dictationTypeId ?? 'NA',
-                          patientDOB: widget.patientDob ?? 'NA',
-                          createdDate: '${DateTime.now()}' ?? 'NA',
-                        ));
+                        //insert records to database
+                        _insertRecordsToDataBase();
 
                         DatabaseHelper.db.deleteAllAudios();
 
                         _init();
-                        print("Audio file: $audioFile");
+                        //print("Audio file: $audioFile");
                         print("Created date: ${DateTime.now()}");
 
                         // DateFormat("HH:mm:ss-dd MMM, yyyy").format(DateTime.now())});
-
                       },
                       // _currentStatus != RecordingStatus.Unset ? _stop : null,
                       child: Text(
@@ -920,7 +912,7 @@ class AudioRecorderWidgetState extends State<AudioRecorderWidget> /*with SingleT
   }
 
   String _printDuration(Duration duration) {
-    if(duration!=null){
+    if (duration != null) {
       String twoDigits(int n) => n.toString().padLeft(2, "0");
       String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
       String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
@@ -943,12 +935,10 @@ class AudioRecorderWidgetState extends State<AudioRecorderWidget> /*with SingleT
         }
         // can add extension like ".mp4" ".wav" ".m4a" ".aac"
         final String formatted = formatter.format(now);
-        customPath = appDocDirectory.path +
-            '${formatted}'+
-            ".mp4";
-        String path=appDocDirectory.path;
-            createFileName(path);
-            print(customPath);
+        customPath = appDocDirectory.path + '${formatted}' + ".mp4";
+        String path = appDocDirectory.path;
+        createFileName(path);
+        print(customPath);
         // .wav <---> AudioFormat.WAV
         // .mp4 .m4a .aac <---> AudioFormat.AAC
         // AudioFormat is optional, if given value, will overwrite path extension when there is conflicts.
@@ -1108,7 +1098,7 @@ class AudioRecorderWidgetState extends State<AudioRecorderWidget> /*with SingleT
     await audioPlayer.play(_current.path, isLocal: true);
   }
 
-   createFileName(String path) {
+  createFileName(String path) {
     String fileName;
 
     try {
@@ -1118,9 +1108,31 @@ class AudioRecorderWidgetState extends State<AudioRecorderWidget> /*with SingleT
       }
     } catch (e, s) {
       fileName = "";
-      AppLogHelper.printLogs( e, s);
+      AppLogHelper.printLogs(e, s);
     }
-     print("${DateTime.now().microsecondsSinceEpoch}" + fileName + ".mp4");
+    print("${DateTime.now().microsecondsSinceEpoch}" + fileName + ".mp4");
     return "${DateTime.now().microsecondsSinceEpoch}" + fileName + ".mp4";
+  }
+
+  //Insert Dictation Data
+   _insertRecordsToDataBase() async {
+    final String formatted = formatter.format(now);
+    var audioFile = await File(_current.path).readAsBytes();
+    DatabaseHelper.db.insertAudio(PatientDictation(
+      audioFile: audioFile,
+      fileName: widget.dictationTypeId +
+          "_" +
+          AppStrings.patientFName +
+          "_" +
+          AppStrings.caseId +
+          "_" +
+          '${formatted}' +
+          ".mp4",
+      patientFirstName: widget.patientFName ?? 'NA',
+      patientLastName: widget.patientLName ?? 'NA',
+      dictationTypeId: widget.dictationTypeId ?? 'NA',
+      patientDOB: widget.patientDob ?? 'NA',
+      createdDate: '${DateTime.now()}' ?? 'NA',
+    ));
   }
 }

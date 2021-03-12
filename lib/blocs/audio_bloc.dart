@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:YOURDRS_FlutterAPP/data/model/dictation.dart';
+import 'package:YOURDRS_FlutterAPP/data/model/patient_dictation.dart';
 import 'package:YOURDRS_FlutterAPP/helper/db_helper.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';

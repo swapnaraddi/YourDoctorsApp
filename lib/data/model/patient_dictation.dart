@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-class Dictation {
+class PatientDictation {
   int id;
   Uint8List audioFile;
   String dictationId;
@@ -35,7 +35,7 @@ class Dictation {
   String appointmentProvider;
   bool isSelected;
 
-  Dictation(
+  PatientDictation(
       {this.id,
       this.audioFile,
       this.dictationId,
@@ -108,7 +108,7 @@ class Dictation {
     return map;
   }
 
-  Dictation.fromMap(Map<String, dynamic> map) {
+  PatientDictation.fromMap(Map<String, dynamic> map) {
     id = map['id'];
     audioFile = map['audioFile'];
     dictationId = map['dictation_id'];

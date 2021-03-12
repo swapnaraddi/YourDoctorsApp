@@ -49,7 +49,7 @@ class AppConstants {
   static const MMM = "MMM";
   static const yyyy = "yyyy";
   static const hhaa = "hh aa";
-  static const formatter = "yyyyMMdd_hhmmss";
+  static const dateFormat = "yyyyMMdd_hhmmss";
   // static const dateFormatter = "HH:mm:ss-dd MMM, yyyy";
 
   // Base Url

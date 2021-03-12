@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:YOURDRS_FlutterAPP/common/app_strings.dart';
-import 'package:YOURDRS_FlutterAPP/data/model/dictation.dart';
+import 'package:YOURDRS_FlutterAPP/data/model/patient_dictation.dart';
 import 'package:YOURDRS_FlutterAPP/data/model/external_attachment.dart';
 import 'package:YOURDRS_FlutterAPP/data/model/photo_list.dart';
 import 'package:path/path.dart';
@@ -40,7 +40,7 @@ class DatabaseHelper {
   }
 
   // Insert Audio and Manual dictation
-  insertAudio(Dictation newAudio) async {
+  insertAudio(PatientDictation newAudio) async {
     // await deleteAllAudios();
 
     var db = await database;
@@ -153,9 +153,9 @@ class DatabaseHelper {
 
   deleteAllAudios() async {
     var db = await database;
-    DateTime now = new DateTime.now();
+    // DateTime now = new DateTime.now();
     // var res = await db.rawDelete("DELETE FROM dictationlocal WHERE createdDate < date('now')");
-    var res = await db.rawDelete("DELETE FROM dictationlocal WHERE createdDate <= date('now','-30 day')");
+    var res = await db.rawDelete("DELETE FROM dictationlocal WHERE createdDate <= date('now','-90 day')");
     print("Audios Deleteddddddddddddddddddd $res");
     return res;
   }
@@ -169,24 +169,6 @@ class DatabaseHelper {
   //   return res;
   // }
 
-  // Future getVaraByDate() async {
-  //   DateTime now = new DateTime.now();
-  //   var date = now.toString().substring(0,10);
-  //
-  //   final sql = '''SELECT * FROM Audio_Table WHERE Audio_Table.date(createdDate) <= $date''';
-  //   print("Deleted items arerrrrrrrrrrrrrrrrrrrrrr: $sql");
-  //   return sql;
-  //   // List<Map> result = await db.rawQuery(sql);
-  //   // if(result.isNotEmpty){
-  //   //   var firstResult = result[0];
-  //   //   var dateResult = firstResult.values.elementAt(2);
-  //   //   print(dateResult);
-  //   //   return dateResult;
-  //   // } else {
-  //   //   print("No matches");
-  //   // }
-  // }
-
   // deleteAllAudios({int minutes = 5}) async {
   //   var db = await database;
   //   // DateTime now = new DateTime.now();
@@ -196,16 +178,16 @@ class DatabaseHelper {
   // }
 
 
-  //Update the records
-  Future<int> updateRecords() async {
-    final db = await database;
-    final updateRes = await db.rawUpdate("UPDATE dictationlocal WHERE 'id=?', whereArgs: [dictationlocal.id]");
-    print(updateRes);
-    return updateRes;
-  }
+  // //Update the records
+  // Future<int> updateRecords() async {
+  //   final db = await database;
+  //   final updateRes = await db.rawUpdate("UPDATE dictationlocal WHERE 'id=?', whereArgs: [dictationlocal.id]");
+  //   print(updateRes);
+  //   return updateRes;
+  // }
 
   //Fetch all the records
-  Future<List<Dictation>> getAllDictations() async {
+  Future<List<PatientDictation>> getAllDictations() async {
     var db = await database;
     // final res = await db.rawQuery("SELECT * FROM EMPLOYEE");
 
@@ -215,11 +197,11 @@ class DatabaseHelper {
 
       // print('data is saving $res');
 
-      List<Dictation> list = res.isNotEmpty
+      List<PatientDictation> list = res.isNotEmpty
           ? res.map((c) {
         print('res.map $c');
 
-        var user = Dictation.fromMap(c);
+        var user = PatientDictation.fromMap(c);
         return user;
       }).toList()
           : [];
